@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddit.proj.mapper.AttenadenceMapper">
+	<resultMap type="AttenadenceVO" id="attenadenceMap">
+		<result property="atenDe" column="ATEN_DE" />
+		<result property="lecCode" column="LEC_CODE" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="codeAtenSe" column="CODE_ATEN_SE" />
+		<result property="atenYn" column="ATEN_YN" />
+		<result property="atenRsn" column="ATEN_RSN" />
+		<result property="atenPruf" column="ATEN_PRUF" />
+	</resultMap>
+	
+	<select id="listAtten" resultType="AttenadenceVO">
+		select * from ATTENADENCE
+	</select>
+	<select id="getAtten" parameterType="AttenadenceVO" resultType="AttenadenceVO">
+		select * from ATTENADENCE where ATEN_DE = #{atenDe}
+	</select>
+	
+	<insert id="insertAtten" parameterType="AttenadenceVO">
+		insert into ATTENADENCE values(#{atenDe},#{lecCode},#{memNo},#{codeAtenSe},#{atenYn},#{atenRsn},#{atenPruf})
+	</insert>
+	
+	<update id="updateAtten" parameterType="AttenadenceVO">
+		update ATTENADENCE
+		set
+		ATEN_DE = #{atenDe},
+		LEC_CODE = #{lecCode},
+		MEM_NO = #{memNo},
+		CODE_ATEN_SE = #{codeAtenSe},
+		ATEN_YN = #{atenYn},
+		ATEN_RSN = #{atenRsn},
+		ATEN_PRUF = #{atenPruf}
+		where ATEN_DE = #{atenDe}
+	</update>
+	
+	<delete id="deleteAtten" parameterType="AttenadenceVO">
+		delete from ATTENADENCE where ATEN_DE = #{atenDe}
+	</delete>
+
+	<!-- 해당 교수 강의 목록 -->
+	<select id="listLecByPro" parameterType="AttenadenceVO" resultType="AttenadenceVO">
+		select l.lec_code, la.leca_nm
+		from professor p, lec_apply la, lecture l 
+		where p.mem_no=la.mem_no and l.leca_id=la.leca_id and p.mem_no=#{memNo}
+	</select>
+	
+	<!-- 해당 교수 강의 목록 > 수강생 목록 -->
+	<select id="listStuByLec" parameterType="AttenadenceVO" resultType="AttenadenceVO">
+		/* com.ddit.proj.mapper.AttenadenceMapper.listStuByLec */
+		SELECT 
+			 s.stu_yr 	/* 년도 */
+			,s.mem_no
+			,c.col_nm
+			,d.dep_nm
+			,m.mem_nm 
+			,m.mem_tel
+		FROM member m
+		LEFT JOIN student s ON m.mem_no = s.mem_no
+		LEFT JOIN department d ON s.dep_code = d.dep_code
+		LEFT JOIN college c ON d.col_code = c.col_code
+		INNER JOIN stu_lec sl ON s.mem_no = sl.mem_no
+		WHERE sl.lec_code = #{lecCode}
+	</select>
+	
+	<!-- 학생별 출결 CNT -->
+	<select id="attendanceCnt" parameterType="hashmap" resultType="attenadenceVO">
+		SELECT  (SELECT COUNT(code_aten_se) FROM ATTENADENCE WHERE LEC_Code = #{lecCode} AND mem_no = #{memNo} AND code_aten_se LIKE '%1') AS atenCome,
+		        (SELECT COUNT(code_aten_se) FROM ATTENADENCE WHERE LEC_Code = #{lecCode} AND mem_no = #{memNo} AND code_aten_se LIKE '%2') AS atenLate,
+		        (SELECT COUNT(code_aten_se) FROM ATTENADENCE WHERE LEC_Code = #{lecCode} AND mem_no = #{memNo} AND code_aten_se LIKE '%3') AS atenEarlyLeave,
+		        (SELECT COUNT(code_aten_se) FROM ATTENADENCE WHERE LEC_Code = #{lecCode} AND mem_no = #{memNo} AND code_aten_se LIKE '%4') AS atenAbsent,
+		        (SELECT COUNT(code_aten_se) FROM ATTENADENCE WHERE LEC_Code = #{lecCode} AND mem_no = #{memNo} AND code_aten_se LIKE '%5') AS atenOfiAbsent
+		FROM DUAL
+	</select>
+	
+	
+</mapper>

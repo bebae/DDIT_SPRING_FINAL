@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddit.proj.mapper.TestMapper">
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="listTest" resultType="TestVO">
+		SELECT
+		    test_code,
+		    lec_code,
+		    test_nm,
+		    test_de,
+		    test_st,
+		    test_et,
+		    test_start_yn,
+		    test_limit
+		FROM
+		    test
+	</select>
+	
+
+	<select id="getTest" parameterType="TestVO" resultType="TestVO">
+		SELECT
+		    test_code,
+		    lec_code,
+		    test_nm,
+		    test_de,
+		    test_st,
+		    test_et,
+		    test_start_yn,
+		    test_limit
+		FROM
+		    test where test_code=#{testcode}
+	</select>
+	
+	<select id="getTestVO" parameterType="int" resultType="TestVO">
+		SELECT
+		    test_code,
+		    lec_code,
+		    test_nm,
+		    test_de,
+		    test_st,
+		    test_et,
+		    test_start_yn,
+		    test_limit
+		FROM 
+			test
+	</select>
+
+	
+	<insert id="insertTest" parameterType="TestVO">
+		insert into test(TEST_CODE, LEC_CODE, TEST_NM, TEST_DE, TEST_ST, TEST_ET,  TEST_LIMIT)
+		values(seq_test.nextval,#{lecCode},#{testNm}, #{testDe}
+								,#{testSt}, #{testEt},#{testLimit})
+		<selectKey resultType="int" keyProperty="testCode" order="AFTER">
+			select seq_test.currval from dual
+		</selectKey>
+	</insert>
+	<insert id="insertTestExam" parameterType="TestExamVO">
+		INSERT INTO testexam (STE_NO, TEST_CODE, STE_TYPE, STE_QUE, STE_RIGHT_ANSWER)
+    	VALUES (test_exam_seq.nextval, #{testCode}, #{steType}, #{steQue}, #{steRightAnswer})
+    	<selectKey resultType="int" keyProperty="steNo" order="AFTER">
+			select test_exam_seq.currval from dual
+		</selectKey>
+	</insert>
+	<insert id="insertTestChoice" parameterType="TestChoiceVO">
+		INSERT INTO testchoice (TEST_CODE, STE_NO, STE_SELECT, STE_SELECT_NO)
+    	VALUES (#{testCode}, #{steNo}, #{steSelect}, #{steSelectNo})
+	</insert>
+	
+	
+
+
+	<update id="updateTest" parameterType="TestVO">
+		UPDATE test
+		SET
+		lecCode=#{lecCode},
+		testNm=#{testNm},
+		testSt=#{testSt},
+		testEt=#{testEt},
+		testStartYn=#{testStartYn},
+		testLimit=#{testLimit}
+		WHERE
+		test_Code=#{testCode}
+	</update>
+
+
+	<delete id="deleteTest" parameterType="TestVO">
+		DELETE FROM test where
+			TEST_CODE=#{testcode}
+	</delete>
+
+
+
+
+
+
+
+
+</mapper>

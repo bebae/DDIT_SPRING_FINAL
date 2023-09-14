@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="873e21ed-3f79-46bd-b985-4939b27e7bb6" name="변경" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2V0pLUcmM3ox2YdVmWJqoFWx477" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC-03/Documents/workspace-sts-3.9.15.RELEASE/dditProj/src/main/resources/mapper&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15722656&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Subversion&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;2a93e63c4fe94fe7279edec50dd8f59c&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;oracle&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC-03\Documents\workspace-sts-3.9.15.RELEASE\dditProj\src\main\resources\mapper" />
+      <recent name="C:\Users\PC-03\Documents\workspace-sts-3.9.15.RELEASE\dditProj\src\main\webapp\WEB-INF\views\record" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PC-03\Documents\workspace-sts-3.9.15.RELEASE\dditProj\src\main\webapp\WEB-INF\views" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ddit.proj.mapper" />
+      <recent name="com.ddit.proj.controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="aws.lambda" factoryName="Local">
+      <option name="credentialProviderId" />
+      <option name="regionId" />
+      <option name="debugHost" value="localhost" />
+      <option name="architecture" />
+      <option name="environmentVariables">
+        <map />
+      </option>
+      <option name="handler" />
+      <option name="image" value="false" />
+      <option name="logicalFunctionName" />
+      <option name="memorySize" value="128" />
+      <option name="pathMappings">
+        <list />
+      </option>
+      <option name="platform" />
+      <option name="runtime" />
+      <option name="templateFile" />
+      <option name="timeout" value="300" />
+      <option name="useTemplate" value="false" />
+      <option name="input" />
+      <option name="inputIsFile" value="false" />
+      <sam>
+        <option name="additionalBuildArgs" />
+        <option name="additionalLocalArgs" />
+        <option name="buildInContainer" value="false" />
+        <option name="dockerNetwork" />
+        <option name="skipImagePull" value="false" />
+      </sam>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\PC-03\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="873e21ed-3f79-46bd-b985-4939b27e7bb6" name="변경" comment="" />
+      <created>1693982795380</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693982795380</updated>
+      <workItem from="1693982796404" duration="15000" />
+      <workItem from="1693982817224" duration="9391000" />
+      <workItem from="1694043419381" duration="29359000" />
+      <workItem from="1694130569952" duration="451000" />
+      <workItem from="1694131037374" duration="21799000" />
+      <workItem from="1694229272287" duration="15372000" />
+      <workItem from="1694389548359" duration="34384000" />
+      <workItem from="1694475972009" duration="27977000" />
+      <workItem from="1694562573574" duration="30186000" />
+      <workItem from="1694649016088" duration="2975000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

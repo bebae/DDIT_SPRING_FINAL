@@ -1,0 +1,32 @@
+package com.ddit.proj.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.ddit.proj.vo.AuthVO;
+import com.ddit.proj.vo.MemberVO;
+
+public interface MemberService {
+	public List<MemberVO> listMember(Map<String, Object> map);
+	public List<AuthVO> listAuth();
+	
+	public MemberVO getMember(MemberVO memberVO);
+	public List<AuthVO> getAuth(AuthVO authVO);
+	
+	public int insertMember(MemberVO memberVO);
+	public int addAuth(AuthVO authVO);
+	
+	public int updateMember(MemberVO memberVO);
+	
+	public int deleteMember(String memNo);
+	public int deleteAuth(AuthVO authVO);
+	
+	public MemberVO read(String memNo);
+	/*
+	public int pwUpdateAll(String password);
+	*/
+	//public List<MemberVO> listMemberPage(Map<String, Object> map);
+	
+	public int getMemberTotal(Map<String, Object> map);
+	
+}

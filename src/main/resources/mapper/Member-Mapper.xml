@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddit.proj.mapper.MemberMapper">
+	<resultMap type="memberVO" id="memberMap">
+		<result property="rnum" column="RNUM" />
+		<result property="memBir" column="MEM_BIR" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="memPass" column="MEM_PASS" />
+		<result property="memDelYn" column="MEM_DEL_YN" />
+		<result property="memNm" column="MEM_NM" />
+		<result property="memNme" column="MEM_NME" />
+		<result property="memTel" column="MEM_TEL" />
+		<result property="memTel2" column="MEM_TEL2" />
+		<result property="memZip" column="MEM_ZIP" />
+		<result property="memAddr1" column="MEM_ADDR1" />
+		<result property="memAddr2" column="MEM_ADDR2" />
+		<result property="memPic" column="MEM_PIC" />
+		<result property="memDepo" column="MEM_DEPO" />
+		<result property="memBankCode" column="MEM_BANK_CODE" />
+		<result property="memMl" column="MEM_ML" />
+		<!-- 여러 개의 권한 -->
+		<collection property="authVOList" resultMap="authMap" />
+	</resultMap>
+	
+	<resultMap type="authVO" id="authMap" >
+		<result property="author" column="AUTHOR" />
+		<result property="memNo" column="MEM_NO" />
+	</resultMap>
+	
+	<select id="read" resultMap="memberMap" parameterType="String">
+		SELECT mem.MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME, MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2, MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR, AUTHOR
+		FROM MEMBER mem
+		INNER JOIN AUTHORITY auth ON mem.MEM_NO = auth.MEM_NO
+		WHERE mem.MEM_NO = #{memNo}
+	</select>
+	
+<!-- 	<select id="listMember" resultType="memberVO"> -->
+<!-- 		SELECT MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME -->
+<!-- 		         , MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2 -->
+<!-- 		         , MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR -->
+<!-- 		FROM   MEMBER -->
+<!-- 		ORDER BY MEM_NO ASC -->
+<!-- 	</select> -->
+	<select id="listMember" resultMap="memberMap" parameterType="hashMap">
+		WITH U AS (
+		    SELECT ROW_NUMBER() OVER (ORDER BY MEM_NO ASC) AS RNUM,
+		           MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME,
+		           MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2,
+		           MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR
+		    FROM MEMBER
+		    WHERE MEM_DEL_YN = 'N'
+		    <include refid="where"></include>
+		)
+		SELECT MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME,
+		       MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2,
+		       MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR
+		FROM U
+		WHERE RNUM BETWEEN ((#{currentPage} - 1) * #{size} + 1) AND (#{currentPage} * #{size})	
+		ORDER BY MEM_NO ASC
+	</select>
+		              	
+	<select id="getMember" parameterType="MemberVO" resultType="MemberVO">
+		select * from member where mem_no = #{memNo}
+	</select>
+	<!-- //memberVO : MemberVO(rnum=0, memNo=2019001, memPass=null, memDelYn=null, memNm=2, memNme=null, memTel=4, 
+		//memTel2=null, memZip=0, memAddr1=null, memAddr2=null, memPic=null, memDepo=null, memBankCode=null, 
+		//memMl=null, memBir=2023-09-11, authVOList=null, professorVO=null, departmentVO=null -->
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO MEMBER (MEM_NO, MEM_PASS, MEM_NM, MEM_NME, MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2, MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR)
+		VALUES (#{memNo}, #{memPass},  #{memNm}, #{memNme}, #{memTel}, #{memTel2}, #{memZip}, #{memAddr1}, #{memAddr2}, #{memPic}, #{memDepo}, #{memBankCode}, #{memMl}, #{memBir})
+	</insert>
+	
+	<update id="updateMember" parameterType="MemberVO">
+	    UPDATE MEMBER
+	    SET
+	    MEM_PASS= #{memPass},
+	    MEM_NM= #{memNm},
+	    MEM_NME= #{memNme},
+	    MEM_TEL= #{memTel},
+	    MEM_TEL2= #{memTel2},
+	    MEM_ZIP= #{memZip},
+	    MEM_ADDR1= #{memAddr1},
+	    MEM_ADDR2= #{memAddr2},
+	    MEM_PIC= #{memPic},
+	    MEM_DEPO= #{memDepo},
+	    MEM_BANK_CODE= #{memBankCode},
+	    MEM_ML= #{memMl},
+	    MEM_BIR = #{memBir}
+	    WHERE
+	    MEM_NO= #{memNo}
+	</update>
+
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET MEM_DEL_YN = 'Y'
+		WHERE MEM_NO = #{memNo}
+	</update>
+	
+	<update id="pwUpdateAll" parameterType="string">
+		UPDATE MEMBER
+		SET
+		MEM_PASS= #{password}
+	</update>
+	
+	<select id="listAuth" resultType="AuthVO">
+		SELECT * FROM AUTHORITY
+	</select>
+	
+	<select id="getAuth" parameterType="AuthVO" resultType="AuthVO">
+		select * from AUTHORITY where mem_no = #{memNo}
+	</select>
+	
+	<insert id="addAuth" parameterType="AuthVO">
+		INSERT INTO AUTHORITY(AUTHOR, MEM_NO)
+		VALUES(#{author}, #{memNo});
+	</insert>
+
+	<delete id="deleteAuth" parameterType="AuthVO">
+		delete from AUTHORITY where MEM_NO = #{memNo}
+	</delete>
+	
+	<select id="detail" parameterType="String" resultMap="memberMap">
+		SELECT mem.MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME, MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2, MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR, AUTHOR
+		FROM MEMBER mem
+		INNER JOIN AUTHORITY auth ON mem.MEM_NO = auth.MEM_NO
+		WHERE mem.MEM_NO = #{memNo}
+	</select>
+	
+<!-- 	<select id="listMemberPage" resultMap="memberMap" parameterType="hashMap"> -->
+<!-- 	    WITH U AS ( -->
+<!-- 	        SELECT ROW_NUMBER() OVER (ORDER BY MEM_NO DESC) AS RNum, -->
+<!-- 	               MEM_NO, MEM_PASS, MEM_DEL_YN, MEM_NM, MEM_NME, -->
+<!-- 	               MEM_TEL, MEM_TEL2, MEM_ZIP, MEM_ADDR1, MEM_ADDR2, -->
+<!-- 	               MEM_PIC, MEM_DEPO, MEM_BANK_CODE, MEM_ML, MEM_BIR -->
+<!-- 	        FROM MEMBER -->
+<!-- 	        WHERE MEM_DEL_YN = 'N' -->
+<!-- 	    ) -->
+<!-- 	    SELECT RNum, MEM_NO, MEM_NM, MEM_BIR, MEM_TEL -->
+<!-- 	    FROM U -->
+<!-- 	    WHERE RNum BETWEEN (#{currentPage} * #{size}) - (#{size}-1) -->
+<!-- 	                   AND (#{currentPage} * #{size}) -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="getMemberListTotal" parameterType="hashMap" resultType="int"> -->
+	<select id="getMemberTotal" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+  		WHERE 1 = 1
+  		<include refid="where"></include>
+	</select>
+	
+	<sql id="where">
+		<if test="keyword!=null and keyword!=''">
+		AND MEM_NO LIKE '%' || #{keyword} || '%'
+		</if>
+	</sql>
+	
+</mapper>

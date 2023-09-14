@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddit.proj.mapper.RecordApplyMapper">
+
+	<select id="getRecordApply" parameterType="RecordApplyVO" resultType="RecordApplyVO">
+	/* com.ddit.proj.mapper.RecordApplyMapper.getRecordApply */
+		SELECT
+			REC_CODE,
+			EMP_MEM_NO,
+			REC_SE_CODE,
+			REC_YR,
+			REC_SEM,
+			REC_RSN,
+			TO_CHAR(REC_DT, 'YYYY-MM-DD') AS REC_DT,
+			REC_YN,
+			REC_RETURN,
+			TO_CHAR(REC_SDE, 'YYYY-MM-DD') AS REC_SDE,
+			TO_CHAR(REC_EDE, 'YYYY-MM-DD') AS REC_EDE
+		FROM
+			RECORD_APPLICATION
+		WHERE
+			REC_DEL_YN = 'N' AND
+			STU_MEM_NO = #{StuMemNo}
+	</select>
+
+
+	<select id="getAllRecordApply" resultType="RecordApplyVO">
+		/* com.ddit.proj.mapper.RecordApplyMapper.getAllRecordApply */
+		SELECT
+			a.rec_code
+			, a.stu_mem_no
+			, a.emp_mem_no
+			, a.rec_yr
+			, a.rec_sem
+			, a.rec_rsn
+			, TO_CHAR(a.rec_dt, 'YYYY-MM-DD') AS rec_dt
+			, a.rec_yn
+			, a.rec_return
+			, TO_CHAR(a.rec_sde, 'YYYY-MM-DD') AS rec_sde
+			, TO_CHAR(a.rec_ede, 'YYYY-MM-DD') AS rec_ede
+			, c.code_nm AS rec_se_code
+		FROM
+			record_application a
+				JOIN
+			(SELECT group_id
+			 FROM group_code b
+			 WHERE b.group_yn = 'Y' and b.group_id = 'STUD') d
+			ON a.rec_del_yn = 'N'
+				LEFT JOIN
+			code c
+			ON
+				a.rec_se_code = c.code_id
+			AND
+				d.group_id = c.group_id
+		  ORDER BY a.rec_code
+	</select>
+
+
+<!-- 학적 신청 추가 Insert -->
+	<insert id="insertRecordApply" parameterType="RecordApplyVO">
+		/* com.ddit.proj.mapper.RecordApplyMapper.insertRecordApply */
+	INSERT INTO record_application (
+			 rec_code
+		 , stu_mem_no
+		 , rec_se_code
+		 , rec_yr
+		 , rec_sem
+		 , rec_rsn
+		 , rec_dt
+		 , rec_sde
+		 , rec_ede
+		 , rec_apply
+	) VALUES (
+		 (SELECT MAX(rec_code) FROM record_application)+1
+		 , '202308S001'
+		 , #{recSeCode}
+		 , #{recYr}
+		 , #{recSem}
+		 , #{recRsn}
+		 , SYSDATE
+		 , TO_DATE(#{recSde}, 'YYYY-MM-DD')
+		 , TO_DATE(#{recEde}, 'YYYY-MM-DD')
+		<choose>
+			<when test="recApply != null">
+				, #{recApply}
+			</when>
+			<otherwise>
+				, NULL
+			</otherwise>
+		</choose>
+  )
+	</insert>
+
+
+	<update id="updateRecordApply" parameterType="RecordApplyVO">
+		/* com.ddit.proj.mapper.RecordApplyMapper.updateRecordApply */
+
+
+	</update>
+
+	<update id="deleteRecordApply" parameterType="RecordApplyVO">
+		/* com.ddit.proj.mapper.RecordApplyMapper.deleteRecordApply */
+		UPDATE record_application
+		SET
+			rec_del_yn = 'Y'
+		WHERE
+			rec_code = #{recCode}
+
+	</update>
+
+	<select id="recEdeMax" resultType="String">
+		SELECT
+			TO_CHAR(MAX(REC_EDE), 'YYYY-MM-DD') AS MaxDate
+		FROM
+			RECORD_APPLICATION
+		WHERE
+			REC_DEL_YN = 'N' AND
+			REC_YN = 'Y'
+	</select>
+
+</mapper>

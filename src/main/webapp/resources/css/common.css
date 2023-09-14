@@ -1,0 +1,43 @@
+
+:root {
+    --my-color: rgb(182, 26, 63);
+    --my2-color: rgb(134, 19, 49);
+    --blue-color: #1b68ff;
+    --white-color: #ffffff;
+}
+
+.bg-my {
+  background-color: rgb(182, 26, 63);
+}
+.bg-white {
+	background-color: #FFFFFF;
+}
+.text-my {
+  color: rgb(182, 26, 63);
+}
+.text-black{
+	color: #000000;
+}
+.text {
+  font-family: Georgia, "맑은 고딕", serif;
+}
+
+.fs-16 { font-size: 16px; }
+.fs-18 { font-size: 18px; }
+.fs-20 { font-size: 20px; }
+.fs-24 { font-size: 24px; }
+.fs-30 { font-size: 30px; }
+.fs-32 { font-size: 32px; }
+
+.btn {
+    white-space:nowrap;
+    padding-bottom: 2px;
+}
+.btn-my {
+    background-color: rgb(182, 26, 63);
+    color: #ffffff;
+}
+.btn-my:hover {
+    background-color: rgb(134, 19, 49);;
+    color: #FFFFFF;
+}

@@ -1,0 +1,32 @@
+package com.ddit.proj.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/stu")
+public class TestNoticeController {
+	/*
+	@Autowired
+	private TestService testService;
+	*/
+	
+	@GetMapping("/test")
+	public String getTestNotice() {
+		log.info("체킁:");
+		return "test/testNotice";
+	}
+	
+	/*
+	@GetMapping("/testNotice")
+	public List<TestVO> getList(){
+		return testService.listTest();
+	}
+	*/
+	
+	
+}
