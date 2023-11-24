@@ -1,21 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<script>
-$(document).ready(function () {
-    $("#register").click(function () {
-        swal({
-            position: 'top-end',
-            icon: 'success',
-            title: '등록되었습니다',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    });
-});
-</script>
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>  
 <style>
   .table thead th {
       color: var(--white-color);
@@ -26,117 +12,226 @@ $(document).ready(function () {
   }
 </style>
 
-<div class="wrapper">
+<div class="wrapper" style="width:100%;">
   <main role="main" class="main-content mx-auto">
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-12">
           <h2 class="mb-2 page-title text-center">시험결과등록</h2>
-
-          
-
-          
-
-
           <!-- Small table -->
           <div class="row my-3">
             <div class="col-md-12">
               <div class="card shadow">
                 <div class="card-body">
                   <!-- table -->
-                  <table class="table datatables text-center" id="dataTable-1">
-                    <thead class="bg-secondary-light">
+                  <table class="table datatables text-center" id="dataTable-1" style="font-weight:bold;">
+                    <thead class="bg-my text-black">
                     <tr>
-                      <th>학과</th>
+                      <th></th>
                       <th>학번</th>
                       <th>학생명</th>
-                      <th>점수</th>
+                      <th>제출시간</th>
                       <th>상세보기</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <c:forEach items="${testSubmitList}" var="TestSubmitVO">
                     <tr>
                       <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>${TestSubmitVO.memNo}</td>
+                      <td>${TestSubmitVO.memNm}</td>
+                      <td>${TestSubmitVO.ansSubmitTime}</td>
                       <td>
-                        <button class="btn btn-my" type="button" data-toggle="modal" data-target="#verticalModal">상세보기</button>
+                        <button class="btn btn-my" id="detailBtn" data-test-code="${testCode}" data-mem-no="${TestSubmitVO.memNo}" type="button">상세보기</button>
                       </td>
                     </tr>
                    
-
+					</c:forEach>
                     </tbody>
                   </table>
                 </div>
               </div>
-              
-              <!-- 모달 -->
-            <div class="modal fade show" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" style="padding-right: 19px;" aria-modal="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="verticalModalTitle">시험이름</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group row">
-                      <label for="input_m_1" class="col-sm-3 col-form-label">학과</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="input_m_1" placeholder="학과">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="input_m_1" class="col-sm-3 col-form-label">학번</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="input_m_1" placeholder="학번">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="input_m_1" class="col-sm-3 col-form-label">학생명</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="input_m_1" placeholder="학생명">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="input_m_1" class="col-sm-3 col-form-label">점수</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="input_m_1" placeholder="점수">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="dataTables_info" id="dataTable-1_btn" style="text-align: center;">
-		          	<button type="button" class="btn btn-my" id="register">등록</button>
-		          </div>
-                </div>
-              </div>
-            </div><!-- 모달 -->
-              
-              
-            </div> <!-- simple table -->
+ 			</div>
+ 			</div><!-- /. col -->
+			</div>
+		</div><!-- .row -->
+	</div>
+	
+	<!-- 학생이 응시한 시험 폼 가져오기 -->
+	<main role="main" id="testForm" class="main-content d-none" style="width: 70%; margin: auto;">
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-12">
+						<div class="card-deck">
+							<div class="card shadow mb-4">
+								<div class="card-header" style="text-align: center;">총 점수 : &nbsp;  
+									<strong class="card-title" id="totalScore"></strong>
+								</div>
+								<div class="card-body" id="problems">
+								</div> <!-- .card-body -->
+							</div> <!-- card show -->
+						</div> <!-- card-deck -->
+					</div> <!-- col-12 -->
+				</div> <!-- row -->
+			</div> <!-- container-fluid -->
+		</main>
+		
+		<div class="dataTables_info" id="dataTable-1_btn" style="text-align: center;">
+			<button type="button" class="btn btn-my" id="register">등록</button>
+		</div>
+		<form id="frm0" name="frm" action="/prof/ansScoreUpdatePost" method="post">
+			<input type="hidden" id="testCode0" name="testCode" value="" />
+			<input type="hidden" id="memNo0" name="memNo" value="" />
+			<sec:csrfInput />
+		</form>
+	</main>
+	
+	
+	
+	
+	
+	</main>
+		</div>
+			<!-- /. col -->
 
-           
 
-          </div> <!-- end section -->
-        </div> <!-- .col-12 -->
-      </div> <!-- .row -->
-    </div> <!-- .container-fluid -->
-
-    
-      
-    </div>
-
-  </main> <!-- main -->
-</div>
+	 
+<!-- simple table -->
 
 <!-- JavaScript 코드 추가 -->
-<script>
-    // "수강계획서 보기" 버튼 클릭 시 모달 창 보이기
-    $(document).ready(function () {
-        $(".btn-primary").click(function () {
-            $("#verticalModal").modal("show");
-        });
-    });
+<script type="text/javascript">
+$(function(){
+	const header = '${_csrf.headerName}';
+    const token = '${_csrf.token}';
+    
+	$("#detailBtn").on("click", function(){
+		let testCode = $(this).data("testCode")
+		let memNo = $(this).data("memNo")
+		//alert("memNo" +memNo)
+		$.ajax({
+			type: "get",
+			url: "/prof/testResult",
+			data: {"testCode":testCode, "memNo":memNo},
+			beforeSend: function (xhr) {
+ 	          xhr.setRequestHeader(header, token);
+ 	        },
+ 	       	success: function (rslt) {
+ 	        	console.log("result : " + typeof(rslt));
+ 	        	qc_html = ''
+ 	        	let steNO = 1
+ 	        	totalScore = 0
+ 				rslt.forEach((data, index) => {
+ 					if (index % 4 == 0) {
+	 					qc_html += '<div class="card my-3">'
+	 					qc_html += '<div class="fs-5">'+ '배점 : ' + data.ansScore + '</div>'
+	 					qc_html += '<div class="card-body">'
+	 					qc_html += '<div class="form-group m-0" id="problem">'
+						qc_html += '<h5 class="card-title h6">' + steNO++ + '. ' + data.steQue + '</h5>'
+						totalScore += data.ansScore
+ 					}
+ 					qc_html += '<div class="form-check py-2 card-text">'
+					+'	<input class="form-check-input" type="radio" name="' + data.steNo + '" ' + (data.steSelectNo == data.ansAnswer ? "checked" : "") + '>'
+					+'	<label class="form-check-label ' + (data.steRightAnswer == data.ansAnswer && data.steSelectNo == data.ansAnswer ? "text-primary" : (data.steRightAnswer != data.ansAnswer && data.steSelectNo == data.ansAnswer ? "text-danger" : "")) + '">' + data.steSelect + '</label>'
+					+'</div>'
+					if (index % 4 == 3) {
+						qc_html += '</div>'
+						qc_html += '</div>'
+						qc_html += '</div>'
+					}
+					
+ 				})
+ 				
+ 				$("#problems").html(qc_html)
+ 	
+				$("#testForm").removeClass("d-none")
+				$("#totalScore").html(totalScore)
+//  	          if (rslt) {
+//  		   			Swal.fire
+//  						({
+//  			   		      icon: 'success',
+//  			   		      title: ""
+//  			   		    }).then((result) => {
+//  			   		    });
+//  	   			} else {
+//  	   				Swal.fire("");	
+//  	   			}
+ 	        },
+ 	        error: function (xhr, status, error) {
+ 	          console.log("code: " + xhr.status)
+ 	          console.log("message: " + xhr.responseText)
+ 	          console.log("error: " + error);
+ 	        }
+		})
+// 		let testCode = "${testCode}";
+// 		console.log("testCode : " + testCode);
+		
+// 		//data-mem-no="달러중괄호TestSubmitVO.memNo중괄호"
+// 		let memNo = $(this).data("memNo");
+// 		console.log("memNo : " + memNo);
+		
+// 		sessionStorage.setItem("memNo",memNo);
+		
+// 		let data = {"testCode":testCode,"memNo":memNo};
+		
+// 		console.log("data : " + JSON.stringify(data));
+// 		/*
+// 		WHERE B.TEST_CODE = 샵{testCode}
+// 		AND   A.MEM_NO = 샵{memNo}
+// 		*/
+	   
+// 		$.ajax({
+// 	        type: "post",
+// 	        url: "/prof/testStuDetail",
+// 	        data: JSON.stringify(data),
+// 	        contentType: "application/json;charset=utf-8",
+// 	        dataType: "json",
+// 	        beforeSend: function (xhr) {
+// 	          xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+// 	        },
+// 	        success: function (rslt) {
+// 	          console.log("rslt : " + JSON.stringify(rslt));
+	
+// 	          if (rslt) {
+// 		   			Swal.fire
+// 						({
+// 			   		      icon: 'success',
+// 			   		      title: "등록되었습니다"
+// 			   		    }).then((result) => {
+// // 		   		    		window.location.href = "/prof/test";	
+
+							
+// 			   		    });
+// 	   			} else {
+// 	   				Swal.fire("등록 실패");	
+// 	   			}
+// 	        },
+// 	        error: function (xhr, status, error) {
+// 	          console.log("code: " + xhr.status)
+// 	          console.log("message: " + xhr.responseText)
+// 	          console.log("error: " + error);
+// 	        }
+// 	      });
+	});
+	
+	//교수가 채점(register)
+	$("#register").on("click",function(){
+		
+		let testCode = "${testCode}";
+		
+		console.log("testCode : " + testCode);
+		
+		let memNo = sessionStorage.getItem("memNo");
+		
+		console.log("memNo : " + memNo);
+		
+		$("#testCode0").val(testCode);
+		$("#memNo0").val(memNo);
+		
+		$("#frm0").submit();
+	});
+});
 </script>
+
+
+
+

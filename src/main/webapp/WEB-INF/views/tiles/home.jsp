@@ -2,109 +2,146 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<style>
+ p { margin: 0}
+ #weather-card {
+	 background-color: #ebebeb;
+	 color: var(--my-color);
+ }
+ #weatherIcon {
+	 vertical-align: middle;
+ }
+ #name {
+	 font-size: 30px;
+	 line-height: 1;
+ }
+ .card-header {
+	 padding: 0.75rem 1.25rem 0.5rem;
+ }
+
+ .nav-link {
+	 padding: 0.5rem 0.5rem 0.35rem;
+ }
+
+ .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	 background-color: var(--my-color);
+ }
+ .nav-item a.nav-link {
+	 color: var(--my-color);
+ }
+
+ /* 공지 테이블 시작 */
+ #noticeTable thead th {
+	 color: #001a4e;
+ }
+ /* 공지 테이블 끝 */
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+$(function(){
+	const ctx = document.querySelector('#myChartjs1');
+
+	//bar와 line은 mix될 수 있음. (딴 건 안됨!, 생각해보면 안되는 이유 추측가능)
+	//chart.js가 잘 만들어진 이유는 생성자 리턴값에 설정옵션들이 거의 다 
+	//포함되어서 리턴되고, 그것으로 모든 걸 제어할 수 있음!(아주 훌륭!)
+	const sujiChart = new Chart(ctx, { //여기가 핵심
+	    type: 'bar', // bar, line, doughnut, pie, radar 기본타입
+	    data: {
+	        //labels 갯수가 맞아야만 해당 데이터가 화면에 나옴!
+	        labels: ['경영대학', '공과대학', '사회과학대학', '생명과학대학', '예술대학', '인문대학', '자연과학대학'],
+	        datasets: [ //배열이라 s를 붙여넣음. s가 중요함.
+	            {   
+	                type:"bar",
+	                label: '작년',
+	                data: [85, 98, 70.1, 75.8, 65.3, 68.5, 77.9],
+	                borderWidth: 1
+	            },
+	            {   
+	                type : "bar",
+	                label: '올해',
+	                data: [88.9, 99.5, 75.8, 79.6, 70.5, 70.6, 80.4],
+	                borderWidth: 1
+	            }
+	        ]
+	    },
+	    // 필요한 옵션은 구글 검색을 통해 해결!
+	    options: {
+	        scales: {
+	            y: {
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+});
+
+const myLastVal = document.querySelector("#lastVal"); 
+const myThisVal = document.querySelector("#thisVal"); 
+
+// sujiChart 전역변수를 이용하여 차트 내부 정보를 읽어올 수 있음!
+//console.log("체킁: ", sujiChart.data.labels); //29~34접근
+//console.log("체킁2: ", sujiChart.data.datasets[1]); //35~40접근
+//console.log("체킁2: ", sujiChart.data.datasets[1].data); 
+
+// 값을 바로 줄 수 있음!
+//sujiChart.data.datasets[1].data = [1,2,3,4,5,6,7];
+
+// chart.js의 가장 중요한 메소드 update() => 다시 그려라(rendering)
+//sujiChart.update();
+
+</script>
 <div class="col-12">
-<div class="row align-items-center mb-2">
-	<div class="col">
-		<h2 class="h5 page-title">Welcome!</h2>
-	</div>
-	<div class="col-auto">
-		<form class="form-inline">
-			<div class="form-group d-none d-lg-inline">
-				<label for="reportrange" class="sr-only">Date Ranges</label>
-				<div id="reportrange" class="px-2 py-2 text-muted">
-					<span class="small"></span>
-				</div>
-			</div>
-			<div class="form-group">
-				<button type="button" class="btn btn-sm">
-					<span class="fe fe-refresh-ccw fe-16 text-muted"></span>
-				</button>
-				<button type="button" class="btn btn-sm mr-2">
-					<span class="fe fe-filter fe-16 text-muted"></span>
-				</button>
-			</div>
-		</form>
-	</div>
-</div>
+<!-- <div class="row align-items-center mb-2"> -->
+<!-- 	<div class="col"> -->
+<!-- 		<h2 class="h5 page-title">Welcome!</h2> -->
+<!-- 	</div> -->
+<!-- </div> -->
 <div class="mb-2 align-items-center">
-	<div class="card shadow mb-4">
-		<div class="card-body">
-			<div class="row mt-1 align-items-center">
-				<div class="col-12 col-lg-4 text-left pl-4">
-					<p class="mb-1 small text-muted">Balance</p>
-					<span class="h3">$12,600</span> <span class="small text-muted">+20%</span>
-					<span class="fe fe-arrow-up text-success fe-12"></span>
-					<p class="text-muted mt-2">Etiam ultricies nisi vel augue.
-						Curabitur ullamcorper ultricies nisi. Nam eget dui</p>
-				</div>
-				<div class="col-6 col-lg-2 text-center py-4">
-					<p class="mb-1 small text-muted">Today</p>
-					<span class="h3">$2600</span><br /> <span class="small text-muted">+20%</span>
-					<span class="fe fe-arrow-up text-success fe-12"></span>
-				</div>
-				<div class="col-6 col-lg-2 text-center py-4 mb-2">
-					<p class="mb-1 small text-muted">Goal Value</p>
-					<span class="h3">$260</span><br /> <span class="small text-muted">+6%</span>
-					<span class="fe fe-arrow-up text-success fe-12"></span>
-				</div>
-				<div class="col-6 col-lg-2 text-center py-4">
-					<p class="mb-1 small text-muted">Completions</p>
-					<span class="h3">26</span><br /> <span class="small text-muted">+20%</span>
-					<span class="fe fe-arrow-up text-success fe-12"></span>
-				</div>
-				<div class="col-6 col-lg-2 text-center py-4">
-					<p class="mb-1 small text-muted">Conversion</p>
-					<span class="h3">6%</span><br /> <span class="small text-muted">-2%</span>
-					<span class="fe fe-arrow-down text-danger fe-12"></span>
-				</div>
-			</div>
-			<div class="chartbox mr-4">
-				<div id="areaChart"></div>
-			</div>
-		</div>
-		<!-- .card-body -->
-	</div>
-	<!-- .card -->
+	<div class="col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <strong class="card-title mb-0">취업딱대학교 단과대별 취업 현황</strong>
+                </div>
+                <div class="col-md-12 mb-4">
+                    <canvas id="myChartjs1" width="425" height="100" class="chartjs-render-monitor" style="display: block; width: 425px; height: 100px;"></canvas>
+                </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+        </div> <!-- /. col -->
 </div>
 <div class="row items-align-baseline">
 	<div class="col-md-12 col-lg-4">
 		<div class="card shadow eq-card mb-4">
 			<div class="card-body mb-n3">
-				<div class="row items-align-baseline h-100">
-					<div class="col-md-6 my-3">
-						<p class="mb-0">
-							<strong class="mb-0 text-uppercase text-muted">Earning</strong>
-						</p>
-						<h3>$2,562</h3>
-						<p class="text-muted">Lorem ipsum dolor sit amet, consectetur
-							adipiscing elit.</p>
+
+				<div class="row align-items-center">
+					<div class="col-6 text-center">
+						<button class="squircle bg-danger-lighter justify-content-center btn" data-url="/common/road">
+							<i class="fe fe-compass fe-32 align-self-center text-white"></i>
+						</button>
+						<p>오시는 길</p>
 					</div>
-					<div class="col-md-6 my-4 text-center">
-						<div lass="chart-box mx-4">
-							<div id="radialbarWidget"></div>
-						</div>
+					<div class="col-6 text-center">
+						<button class="squircle bg-danger-light justify-content-center btn" data-url="/common/map">
+							<i class="fe fe-map fe-32 align-self-center text-white"></i>
+						</button>
+						<p>캠퍼스 맵</p>
 					</div>
-					<div class="col-md-6 border-top py-3">
-						<p class="mb-1">
-							<strong class="text-muted">Cost</strong>
-						</p>
-						<h4 class="mb-0">108</h4>
-						<p class="small text-muted mb-0">
-							<span>37.7% Last week</span>
-						</p>
+					<div class="col-6 text-center">
+						<button class="squircle bg-danger-dark justify-content-center btn" data-url="/security/login">
+							<i class="fe fe-log-in fe-32 align-self-center text-white"></i>
+						</button>
+						<p>로그인</p>
 					</div>
-					<!-- .col -->
-					<div class="col-md-6 border-top py-3">
-						<p class="mb-1">
-							<strong class="text-muted">Revenue</strong>
-						</p>
-						<h4 class="mb-0">1168</h4>
-						<p class="small text-muted mb-0">
-							<span>-18.9% Last week</span>
-						</p>
+					<div class="col-6 text-center">
+						<button class="squircle bg-danger justify-content-center btn" data-url="/home/chart">
+							<i class="fe fe-pie-chart fe-32 align-self-center text-white"></i>
+						</button>
+						<p>총지표</p>
 					</div>
-					<!-- .col -->
+
 				</div>
+				<!-- .col -->
 			</div>
 			<!-- .card-body -->
 		</div>
@@ -119,19 +156,19 @@
 				</div>
 				<div class="row items-align-center">
 					<div class="col-4 text-center">
-						<p class="text-muted mb-1">Cost</p>
-						<h6 class="mb-1">$1,823</h6>
-						<p class="text-muted mb-0">+12%</p>
+						<p class="text-muted mb-1">2020</p>
+						<h6 class="mb-1">3.42</h6>
+						<p class="text-muted mb-0">4.5</p>
 					</div>
 					<div class="col-4 text-center">
-						<p class="text-muted mb-1">Revenue</p>
-						<h6 class="mb-1">$6,830</h6>
-						<p class="text-muted mb-0">+8%</p>
+						<p class="text-muted mb-1">2021</p>
+						<h6 class="mb-1">3.56</h6>
+						<p class="text-muted mb-0">4.5</p>
 					</div>
 					<div class="col-4 text-center">
-						<p class="text-muted mb-1">Earning</p>
-						<h6 class="mb-1">$4,830</h6>
-						<p class="text-muted mb-0">+8%</p>
+						<p class="text-muted mb-1">2022</p>
+						<h6 class="mb-1">3.40</h6>
+						<p class="text-muted mb-0">4.5</p>
 					</div>
 				</div>
 			</div>
@@ -142,32 +179,48 @@
 	<!-- .col -->
 	<div class="col-md-12 col-lg-4">
 		<div class="card shadow eq-card mb-4">
+			<div class="card-header">
+				<strong class="card-title">오늘의 학식</strong>
+			</div>
+
 			<div class="card-body">
-				<div class="d-flex mt-3 mb-4">
-					<div class="flex-fill pt-2">
-						<p class="mb-0 text-muted">Total</p>
-						<h4 class="mb-0">108</h4>
-						<span class="small text-muted">+37.7%</span>
-					</div>
-					<div class="flex-fill chart-box mt-n2">
-						<div id="barChartWidget"></div>
-					</div>
-				</div>
-				<!-- .d-flex -->
-				<div class="row border-top">
-					<div class="col-md-6 pt-4">
-						<h6 class="mb-0">
-							108 <span class="small text-muted">+37.7%</span>
-						</h6>
-						<p class="mb-0 text-muted">Cost</p>
-					</div>
-					<div class="col-md-6 pt-4">
-						<h6 class="mb-0">
-							1168 <span class="small text-muted">-18.9%</span>
-						</h6>
-						<p class="mb-0 text-muted">Revenue</p>
+				<div class="row">
+					<div class="col-12">
+						<ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-breakfast" role="tab" aria-controls="pills-home" aria-selected="false">조식</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-lunch" role="tab" aria-controls="pills-profile" aria-selected="false">중식</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " id="pills-contact-tab" data-toggle="pill" href="#pills-dinner" role="tab" aria-controls="pills-contact" aria-selected="true">석식</a>
+							</li>
+						</ul>
 					</div>
 				</div>
+
+				<div class="tab-content mb-1 " id="pills-tabContent">
+					<div class="tab-pane fade row " id="pills-breakfast" role="tabpanel" aria-labelledby="pills-home-tab">
+						<div class="col-12">
+							<span class="h5 pl-3">조식 메뉴</span>
+							<ul id="breakfast-menu"></ul>
+						</div>
+					</div>
+					<div class="tab-pane fade row active show" id="pills-lunch" role="tabpanel" aria-labelledby="pills-profile-tab">
+						<div class="col-12">
+							<span class="h5 pl-3">중식 메뉴</span>
+							<ul id="lunch-menu"></ul>
+						</div>
+					</div>
+					<div class="tab-pane fade row" id="pills-dinner" role="tabpanel" aria-labelledby="pills-contact-tab">
+						<div class="col-12">
+							<span class="h5 pl-3">석식 메뉴</span>
+							<ul id="dinner-menu"></ul>
+						</div>
+					</div>
+				</div>
+
 				<!-- .row -->
 			</div>
 			<!-- .card-body -->
@@ -179,148 +232,71 @@
 <!-- .row -->
 <div class="row">
 	<!-- Recent Activity -->
-	<div class="col-md-12 col-lg-4 mb-4">
-		<div class="card timeline shadow">
+	<div class="col-md-12 col-lg-4 mb-3">
+		<div class="card timeline shadow" id="weather-card">
 			<div class="card-header">
-				<strong class="card-title">Recent Activity</strong> <a
-					class="float-right small text-muted" href="#!">View all</a>
+				<strong class="card-title">오늘의 날씨</strong>
 			</div>
-			<div class="card-body" data-simplebar
-				style="height: 355px; overflow-y: auto; overflow-x: hidden;">
-				<h6 class="text-uppercase text-muted mb-4">Today</h6>
-				<div class="pb-3 timeline-item item-primary">
-					<div class="pl-5">
-						<div class="mb-1">
-							<strong>@Brown Asher</strong><span class="text-muted small mx-2">Just
-								create new layout Index, form, table</span><strong>Tiny Admin</strong>
+			<div class="card-body p-3 pb-4" data-simplebar
+				style="overflow-y: auto; overflow-x: hidden;">
+				<div class="row align-items-start mb-4 mt-2">
+					<div class="col-6">
+						<div class="fs-64 text-center p-3">
+							<i id="weatherIcon"></i>
 						</div>
-						<p class="small text-muted">
-							Creative Design <span class="badge badge-light">1h ago</span>
-						</p>
+					</div>
+					<div class="col-6 fs-24">
+						<div class="">
+							<p class="fs-18 py-2"><b id="name">대전<i class="wi wi-thermometer fs-30 pl-2"></i></b></p>
+							<span class="fs-20 ">현재온도 : </span><span id="temp"></span><i class="wi wi-celsius "></i>
+						</div>
+						<div class="my-1">
+							<p class="fs-20">체감온도 : <span class="fs-24" id="feels_like"></span><i class="wi wi-celsius fs-24"></i></p>
+						</div>
 					</div>
 				</div>
-				<div class="pb-3 timeline-item item-warning">
-					<div class="pl-5">
-						<div class="mb-3">
-							<strong>@Hester Nissim</strong><span
-								class="text-muted small mx-2">has upload new files to</span><strong>Tiny
-								Admin</strong>
+
+
+
+				<div class="row align-items-start justify-content-center text-center fs-24">
+					<div class="col-auto mx-2">
+						<div>
+							<p><i class="wi wi-humidity"></i></p>
+							<p class="fs-18" id="humidity"></p>
+							<p class="fs-18">습도</p>
 						</div>
-						<div class="row mb-3">
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p1.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p2.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p3.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p4.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
+					</div>
+					<div class="col-auto mx-2">
+						<div>
+							<p><i class="wi wi-cloud"></i></p>
+							<p class="fs-18" id="cloudy"></p>
+							<p class="fs-18">구름</p>
 						</div>
-						<p class="small text-muted">
-							Front-End Development <span class="badge badge-light">1h
-								ago</span>
-						</p>
+					</div>
+					<div class="col-auto">
+						<div>
+							<p><i class="wi wi-raindrops"></i></p>
+							<p class="fs-18" id="rain"></p>
+							<p class="fs-18">강수량</p>
+						</div>
+					</div>
+
+					<div class="col-auto">
+						<div>
+							<p><i class="wi wi-strong-wind"></i></p>
+							<p class="fs-18" id="wind"></p>
+							<p class="fs-18">풍속</p>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div>
+							<p class="fs-26"><i class="wi wi-wind" id="degId"></i></p>
+							<p class="fs-18" id="deg"></p>
+							<p class="fs-18">풍향</p>
+						</div>
 					</div>
 				</div>
-				<div class="pb-3 timeline-item item-success">
-					<div class="pl-5">
-						<div class="mb-3">
-							<strong>@Kelley Sonya</strong><span class="text-muted small mx-2">has
-								commented on</span><strong>Advanced table</strong>
-						</div>
-						<div class="card d-inline-flex mb-2">
-							<div class="card-body bg-light py-2 px-3 small rounded">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-								dignissim nulla eu quam cursus placerat. Vivamus non odio
-								ullamcorper, lacinia ante nec, blandit leo.</div>
-						</div>
-						<p class="small text-muted">
-							Back-End Development <span class="badge badge-light">1h
-								ago</span>
-						</p>
-					</div>
-				</div>
-				<h6 class="text-uppercase text-muted mb-4">Yesterday</h6>
-				<div class="pb-3 timeline-item item-warning">
-					<div class="pl-5">
-						<div class="mb-3">
-							<strong>@Fletcher Everett</strong><span
-								class="text-muted small mx-2">created new group for</span><strong>Tiny
-								Admin</strong>
-						</div>
-						<ul class="avatars-list mb-3">
-							<li><a href="#!" class="avatar avatar-sm"> <img
-									alt="..." class="avatar-img rounded-circle"
-									src="/resources/master/light/assets/avatars/face-1.jpg">
-							</a></li>
-							<li><a href="#!" class="avatar avatar-sm"> <img
-									alt="..." class="avatar-img rounded-circle"
-									src="/resources/master/light/assets/avatars/face-4.jpg">
-							</a></li>
-							<li><a href="#!" class="avatar avatar-sm"> <img
-									alt="..." class="avatar-img rounded-circle"
-									src="/resources/master/light/assets/avatars/face-3.jpg">
-							</a></li>
-						</ul>
-						<p class="small text-muted">
-							Front-End Development <span class="badge badge-light">1h
-								ago</span>
-						</p>
-					</div>
-				</div>
-				<div class="pb-3 timeline-item item-success">
-					<div class="pl-5">
-						<div class="mb-3">
-							<strong>@Bertha Ball</strong><span class="text-muted small mx-2">has
-								commented on</span><strong>Advanced table</strong>
-						</div>
-						<div class="card d-inline-flex mb-2">
-							<div class="card-body bg-light py-2 px-3">Lorem ipsum dolor
-								sit amet, consectetur adipiscing elit. Integer dignissim nulla
-								eu quam cursus placerat. Vivamus non odio ullamcorper, lacinia
-								ante nec, blandit leo.</div>
-						</div>
-						<p class="small text-muted">
-							Back-End Development <span class="badge badge-light">1h
-								ago</span>
-						</p>
-					</div>
-				</div>
-				<div class="pb-3 timeline-item item-danger">
-					<div class="pl-5">
-						<div class="mb-3">
-							<strong>@Lillith Joseph</strong><span
-								class="text-muted small mx-2">has upload new files to</span><strong>Tiny
-								Admin</strong>
-						</div>
-						<div class="row mb-3">
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p4.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p1.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-							<div class="col">
-								<img src="/resources/master/light/assets/products/p2.jpg"
-									alt="..." class="img-fluid rounded">
-							</div>
-						</div>
-						<p class="small text-muted">
-							Front-End Development <span class="badge badge-light">1h
-								ago</span>
-						</p>
-					</div>
-				</div>
+
 			</div>
 			<!-- / .card-body -->
 		</div>
@@ -331,125 +307,21 @@
 	<div class="col-md-12 col-lg-8">
 		<div class="card shadow">
 			<div class="card-header">
-				<strong class="card-title">Recent Data</strong> <a
-					class="float-right small text-muted" href="#!">View all</a>
+				<strong class="card-title">공지사항</strong> <a
+					class="float-right small text-muted" href="/common/notice">더보기</a>
 			</div>
-			<div class="card-body my-n2">
-				<table class="table table-striped table-hover table-borderless">
+			<div class="card-body my-n2 pb-1">
+				<table class="table table-striped table-hover table-borderless" id="noticeTable">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Address</th>
-							<th>Date</th>
-							<th>Action</th>
+							<th>No.</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>2474</td>
-							<th scope="col">Brown, Asher D.</th>
-							<td>Ap #331-7123 Lobortis Avenue</td>
-							<td>13/09/2020</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-sm dropdown-toggle more-vertical"
-										type="button" id="dr1" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
-										<span class="text-muted sr-only">Action</span>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="dr1">
-										<a class="dropdown-item" href="#">Edit</a> <a
-											class="dropdown-item" href="#">Remove</a> <a
-											class="dropdown-item" href="#">Assign</a>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>2786</td>
-							<th scope="col">Leblanc, Yoshio V.</th>
-							<td>287-8300 Nisl. St.</td>
-							<td>04/05/2019</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-sm dropdown-toggle more-vertical"
-										type="button" id="dr2" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
-										<span class="text-muted sr-only">Action</span>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="dr2">
-										<a class="dropdown-item" href="#">Edit</a> <a
-											class="dropdown-item" href="#">Remove</a> <a
-											class="dropdown-item" href="#">Assign</a>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>2747</td>
-							<th scope="col">Hester, Nissim L.</th>
-							<td>4577 Cras St.</td>
-							<td>04/06/2019</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-sm dropdown-toggle more-vertical"
-										type="button" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false">
-										<span class="text-muted sr-only">Action</span>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right">
-										<a class="dropdown-item" href="#">Edit</a> <a
-											class="dropdown-item" href="#">Remove</a> <a
-											class="dropdown-item" href="#">Assign</a>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>2639</td>
-							<th scope="col">Gardner, Leigh S.</th>
-							<td>P.O. Box 228, 7512 Lectus Ave</td>
-							<td>04/08/2019</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-sm dropdown-toggle more-vertical"
-										type="button" id="dr4" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
-										<span class="text-muted sr-only">Action</span>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="dr4">
-										<a class="dropdown-item" href="#">Edit</a> <a
-											class="dropdown-item" href="#">Remove</a> <a
-											class="dropdown-item" href="#">Assign</a>
-									</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>2238</td>
-							<th scope="col">Higgins, Uriah L.</th>
-							<td>Ap #377-5357 Sed Road</td>
-							<td>04/01/2019</td>
-							<td>
-								<div class="dropdown">
-									<button class="btn btn-sm dropdown-toggle more-vertical"
-										type="button" id="dr5" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
-										<span class="text-muted sr-only">Action</span>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right"
-										aria-labelledby="dr5">
-										<a class="dropdown-item" href="#">Edit</a> <a
-											class="dropdown-item" href="#">Remove</a> <a
-											class="dropdown-item" href="#">Assign</a>
-									</div>
-								</div>
-							</td>
-						</tr>
+					<tbody id="mainNotice">
+
 					</tbody>
 				</table>
 			</div>
@@ -459,3 +331,224 @@
 </div>
 <!-- .row-->
 </div>
+<!-- /////////////////////////// home.jsp 추가 JS 코드 시작 /////////////////////////// -->
+<script type="text/javascript">
+
+	$(function(){
+		weatherAPI();
+		fetchMenuData();
+		getMainNotice();
+
+		
+		/* 차트 */
+		$("#SvgjsText1020").html("3.38");
+		
+		
+		/* 메인페이지 공지사항 시작 */
+		function getMainNotice() {
+			$.ajax({
+				url: "/home/mainNotice",
+				type: "GET",
+				dataType: "json", // JSON 데이터 타입으로 요청
+				success: function (data) {
+					// console.log(data);
+					// 데이터를 성공적으로 받아왔을 때 실행되는 콜백 함수
+					if (data) {
+						// console.log(data);
+
+						let html;
+						data.forEach(function(data, index) {
+							html += `
+							<tr>
+								<td class="pl-3">\${index+1}</td>
+								<th scope="col">\${data.ntcTtl}</th>
+								<td>\${data.memNm}</td>
+								<td>\${data.ntcDtt}</td>
+							</tr>
+							`;
+						});
+						$("#mainNotice").html(html);
+
+					} else {
+						console.error("데이터를 가져오1지 못했습니다.");
+					}
+				},
+				error: function (xhr, status, error) {
+					// AJAX 요청에 실패했을 때 실행되는 콜백 함수
+					console.error("AJAX 요청에 실패했습니다.");
+					console.log("code: "+xhr);
+					console.log("message: "+status);
+					console.log("error: "+error);
+				},
+			});
+		}
+		/* 메인페이지 공지사항 끝 */
+
+		/* 바로가기 버튼 클릭 이벤트 처리 시작 */
+		const buttons = document.querySelectorAll('.squircle.btn');
+
+		buttons.forEach(button => {
+			button.addEventListener('click', () => {
+				const url = button.getAttribute('data-url');
+				if (url) {
+					window.location.href = url;
+				}
+			});
+		});
+		/* 바로가기 버튼 클릭 이벤트 처리 끝 */
+
+		/* 학식메뉴 처리 시작 */
+		function fetchMenuData() {
+			// AJAX 요청을 보내고 서버에서 JSON 데이터를 받아옵니다.
+			$.ajax({
+				url: "/home/menu",
+				type: "GET",
+				dataType: "json", // JSON 데이터 타입으로 요청
+				success: function (data) {
+					// console.log(data);
+					// 데이터를 성공적으로 받아왔을 때 실행되는 콜백 함수
+					if (data) {
+						// 서버에서 받아온 메뉴 데이터를 사용하여 HTML에 동적으로 삽입
+						populateMenu("breakfast-menu", data.breakfast);
+						populateMenu("lunch-menu", data.lunch);
+						populateMenu("dinner-menu", data.dinner);
+					} else {
+						console.error("메뉴 데이터를 가져오지 못했습니다.");
+					}
+				},
+				error: function (xhr, status, error) {
+					// AJAX 요청에 실패했을 때 실행되는 콜백 함수
+					console.error("AJAX 요청에 실패했습니다.");
+					console.log("code: "+xhr);
+					console.log("message: "+status);
+					console.log("error: "+error);
+				},
+			});
+		}
+
+		// JSON 데이터를 사용하여 메뉴를 HTML에 동적으로 삽입
+		function populateMenu(menuId, data) {
+			const menuList = document.getElementById(menuId);
+
+			data.forEach(item => {
+				const listItem = document.createElement("li");
+				listItem.textContent = item;
+				menuList.appendChild(listItem);
+			});
+		}
+		/* 학식메뉴 처리 끝 */
+
+		/* 날씨 API 시작 */
+		function weatherAPI() {
+			const leng = 'en';
+			const location = 'daejeon';
+			const apiKey = '70304e4b264561a20957682a48779dce'; // API 키
+			const apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=\${location}&appid=\${apiKey}&lang=\${leng}&units=metric`;
+
+			const temp = $("#temp");
+			const name = $("#name");
+			const feels_like = $("#feels_like");
+			const humidity = $("#humidity");
+			const cloudy = $("#cloudy");
+			const rain = $("#rain");
+			const wind = $("#wind");
+			const deg = $("#deg");
+
+			$.ajax({
+				type: "GET",
+				url: apiUrl,
+				dataType: "json",
+				success: function (data) {
+					temp.html(data.main.temp) ;
+					// name.html(data.name);
+					feels_like.html(data.main.feels_like);
+					humidity.html(data.main.humidity + "%");
+					cloudy.html(data.clouds.all + "%");
+					if (data.rain && data.rain['1h']) {
+						rain.html(data.rain['1h'] + "mm");
+					} else {
+						rain.html("0mm");
+					}
+					wind.html(data.wind.speed + "m/s");
+
+					const windDirection = convertWindDirection(data.wind.deg) + "풍";
+					deg.html(windDirection);
+
+					let code = data.weather[0].id;
+
+					weatherIcons(code);
+					degIcons(data.wind.deg);
+				},
+				error: function (xhr, status, error) {
+					console.error('AJAX 오류 발생: ' + error);
+				}
+			});
+		}
+
+		function degIcons(data) {
+			let degClass = "towards-";
+			degClass += data;
+			degClass += "-deg";
+
+			// console.log("풍향 : "+data);
+			$("#degId").addClass(degClass);
+		}
+
+		function convertWindDirection(data) {
+			// 바람 방향을 나타내는 문자열 배열
+			const windDirections = [
+				"북", "북북동", "동북동", 
+				"동", "동남동", "남남동", 
+				"남", "남남서", "서남서", 
+				"서", "서북서", "북북서"
+			];
+
+			// 각 바람 방향을 30도 간격으로 나누어 매핑
+			const index = Math.round(data / 30) % 12;
+
+			return windDirections[index];
+		}
+
+		function weatherIcons(code) {
+			$.ajax({
+				type: "GET",
+				url: "/resources/weather-icons-master/icons.json",
+				dataType: "json",
+				success: function (data) {
+					if (data) {
+						// console.log("code : " + code);
+						let icon = data[code].icon;
+						// console.log(icon);
+
+						let prefix = "wi wi-";
+
+						let today = new Date();
+						let hour = today.getHours();
+						let dorn;
+
+						if (hour > 6 && hour < 16) {
+							dorn = "day-";
+						} else {
+							dorn = "night-";
+							if (icon === "sunny") {
+								icon = "clear";
+							}
+						}
+						let iconD = prefix + dorn + icon;
+						// console.log(iconD);
+						$("#weatherIcon").addClass(iconD);
+					}
+				},
+				error: function (xhr, status, error) {
+					console.log("code: " + xhr);
+					console.log("message: " + status);
+					console.log("error: " + error);
+				}
+			});
+		}
+		/* 날씨 API 끝 */
+
+
+	})
+</script>
+<!-- /////////////////////////// home.jsp 추가 JS 코드 끝 /////////////////////////// -->

@@ -2,18 +2,23 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script>
-
-    </script>
 
 
     <!doctype html>
     <html lang="en">
-    <main role="main" class="main-content" style="width: 70%; margin: auto;">
+    <main role="main" class="main-content" style="width: 100%; margin: auto;">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="page-title">시험 상세</h2>
+            <h2 class="h4 mb-1" style="text-align:center;">시험 등록</h2><br/>
+            <div class="alert alert-secondary" role="alert">
+            <strong>
+            	📢 시험제출 안내 사항<br/><br/>
+
+				(1) 반드시 기간을 설정한 후, 시험을 등록하는 것을 권장합니다.<br/>
+      				- 시험 기간 미설정시, 등록 직후 바로 시험에 응시가능합니다.
+      		</strong> 
+            </div>
             <div class="card-deck">
               <div class="card shadow mb-4">
                 
@@ -22,65 +27,65 @@
                     <sec:csrfInput />
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">시험일자</label>
+                        <label for="inputEmail4" ><strong>* 시험일자</strong></label>
                         <input type="date" class="form-control" id="testDe" name="testDe" value="">
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">제한시간</label>
+                        <label for="inputPassword4"><strong>* 제한시간</strong></label>
                         <input type="text" class="form-control" id="testLimit" name="testLimit" value="">
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">시작시간</label>
+                        <label for="inputEmail4"><strong>* 시작시간</strong></label>
                         <input type="time" class="form-control" id="testSt" name="testSt" value="">
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">종료시간</label>
+                        <label for="inputPassword4"><strong>* 종료시간</strong></label>
                         <input type="time" class="form-control" id="testEt" name="testEt" value="">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label for="testNm">시험이름</label>
+                      <label for="testNm"><strong>* 시험이름</strong></label>
                       <input type="text" class="form-control" id="testNm" name="testNm" value="">
                     </div><br />
 
-                    <button type="button" class="btn btn-my" id="plus" style="float: right;">+</button>
                     <br />
 
                     <div id="problems">
-                      <div class="form-group" id="problem">
-                        <label for="steQue" id="testCnt" >시험문제 1</label>
+	                    <button type="button" class="btn btn-my" id="plus" style="float: right;">+</button>
+                      <div class="form-group" id="problem" style="border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+                        <label for="steQue" id="testCnt" ><strong>* 시험문제 1</strong></label>
                         <input type="text" class="form-control" id="steQue" name="steQue"
                           value=""><br />
 
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="gridRadios" id="steType" value="option1">
-                          <label class="form-check-label" for="gridRadios1">1</label>
+                          <label class="form-check-label" for="gridRadios1"><strong>1</strong></label>
                           <input type="text" class="form-control" id="steSelect" name="steSelect"
                             value="">
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="gridRadios" id="steType" value="option2">
-                          <label class="form-check-label" for="gridRadios1">2</label>
+                          <label class="form-check-label" for="gridRadios1"><strong>2</strong></label>
                           <input type="text" class="form-control" id="steSelect" name="steSelect"
                             value="">
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="gridRadios" id="steType" value="option3">
-                          <label class="form-check-label" for="gridRadios1">3</label>
+                          <label class="form-check-label" for="gridRadios1"><strong>3</strong></label>
                           <input type="text" class="form-control" id="steSelect" name="steSelect"
                             value="">
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="gridRadios" id="steType" value="option4">
-                          <label class="form-check-label" for="gridRadios1">4</label>
+                          <label class="form-check-label" for="gridRadios1"><strong>4</strong></label>
                           <input type="text" class="form-control" id="steSelect" name="steSelect"
                             value="">
                         </div>
-                        <hr/>
                       </div>
-                      
                     </div>
+                    
+                    
                     <button type="submit" class="btn btn-my" id="save">저장</button>
                   </form>
                 </div>
@@ -129,9 +134,11 @@
           labels[i].setAttribute("for",`option\${problemCount}`);
         }
 
-        newTestExamDiv.querySelector("#testCnt").innerHTML = `시험 문제  \${problemCount}`;
+        newTestExamDiv.querySelector("#testCnt").innerHTML = `<strong>* 시험 문제  \${problemCount}</strong>`;
 
         testExamDivPar.appendChild(newTestExamDiv);
+        $(newTestExamDiv).before($("#plus"))
+        window.scrollTo(0, document.body.scrollHeight)
       });
 
 
@@ -192,17 +199,16 @@
           success: function (rslt) {
             console.log(rslt);
 
-            if (rslt == 1) {
-              //alert("성공");
-              swal({
-                position: 'top-end',
-                icon: 'success',
-                title: '저장되었습니다',
-                showConfirmButton: false,
-                timer: 2000
-              });
-              window.location.href = "/prof/testRegister"; // 등록 후 페이지 이동
-            }
+            if (rslt) {
+	   			Swal.fire({
+		   		      icon: 'success',
+		   		      title: "시험 등록되었습니다"
+		   		    }).then((result) => {
+	   		    		window.location.href = "/prof/test";	
+		   		    })
+	   			} else {
+	   				Swal.fire("시험등록실패");	
+	   			}
           },
           error: function (xhr, status, error) {
             console.log("code: " + xhr.status)
@@ -210,22 +216,9 @@
             console.log("error: " + error);
           }
         })
-        
-        
-        {
-              //alert("성공");
-              swal({
-                position: 'top-end',
-                icon: 'success',
-                title: '저장되었습니다',
-                showConfirmButton: false,
-                timer: 2000
-              });
-
-            }
-        
-
       });
+        
+
     </script>
     </body>
 

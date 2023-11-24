@@ -2,28 +2,25 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"  prefix="sec" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <style>
   .pagination .page-item.active .page-link,
   .pagination .page-item .page-link:hover {
-    background-color: #b32430;
+    background-color: #b92143;
     color : white;
     border-color: #1b68ff;
   }
   
   .bg-warning-light {
-    background: #b32430;0
+    background: #b92143;
   }
   .table thead th {
     color: #ffffff;
   }
-  .btn-primary {
-    color: #ffffff;
-    background-color: #b32430;
-    border-color: #1b68ff;
-  }
 </style>
   <body class="vertical light">
-    <div class="wrapper" style="width: 80%; margin: 0 auto; margin-top: 3%; padding-left: 10%; padding-right: 10%;">
+<%--   <p>범진${data }</p> --%>
+    <div class="wrapper" style="width: 100%; margin: 0 auto; padding-left: 10%; padding-right: 10%;">
     
       <main role="main" class="main-content" style="width: 100%; margin: 0 auto;">
         <div class="container-fluid" >
@@ -31,20 +28,24 @@
             <div class="col-12">
               <div class="row">
                 <!-- Small table -->
-                <div class="col-md-12 my-4">
+                <div class="col-md-12 my-0">
 			      <div class="row align-items-center mb-4">
+			      	<div class="col-md-12 my-0">
+					<h1 class="h4 mb-1 text-center" style="font-size:35px;" >사용자 정보 관리</h1>
+	                <hr/>
+	                </div>
 	                <div class="col">
-	                  <button type="button" id="h" class="btn btn-primary" style="color:white; border-color: transparent; height:40px; width:150px;" onclick="openMemberRegister()">사용자 등록</button>
+	                  <button type="button" id="h" class="btn btn-my" style="height:40px; width:150px;" onclick="openMemberRegister()">사용자 등록</button>
 	                </div>
 					<div class="col-auto">
 					    <div class="input-group">
-<!-- 					    	<select id="userId" class="form-control" style="margin-right: 10px; height:40px; width:150px;"> -->
-<!-- 									<option value="studentId">학번</option> -->
-<!-- 									<option value="alternation">교번</option> -->
-<!-- 							</select> -->
 							<form action="/admin/member" method="get" style="display: flex; align-items: center;">
+						    	<select id="userId" class="form-control" style="margin-right: 10px; height:40px; width:150px;">
+										<option value="학번">학번</option>
+										<option value="교번">교번</option>
+								</select>
 					        	<input type="text" class="form-control" id="search1" name="keyword" value="${param.keyword}" placeholder="학번/교번을 입력해주세요." style="margin-right: 10px; height:40px; width:300px;">
-					        	<button type="submit" id="ho" class="btn btn-primary bg-my text-white" style="color:white; border-color: transparent; height:40px;">검색</button>
+					        	<button type="submit" id="ho" class="btn btn-my" style="color:white; border-color: transparent; height:40px;">검색</button>
 					   		</form>
 					    </div>
 					</div>
@@ -81,39 +82,65 @@
                       <table class="table table-borderless table-hover" aria-describedby="dataTable_info">
                         <thead class="bg-warning-light text-black">
                           <tr>
-                            <th>순번</th>
-                            <th>학번/교번</th>
-                            <th>이름</th>
-                            <th>생년월일</th>
-                            <th>전화번호</th>
-                            <th>상세보기</th>
+                            <th class="text-center">순번</th>
+                            <th>사용자 구분</th>
+                            <th>단과대/부서</th>
+                            <th>학과/재직구분</th>
+                            <th class="text-center">학번/교번</th>
+                            <th class="text-center">이름</th>
+                            <th class="text-center">생년월일</th>
+                            <th class="text-center">전화번호</th>
+                            <th class="text-center">상세보기</th>
                           </tr>
                         </thead>
                         <tbody>
                           <!-- List<MemberVO> memberList -->
                           <c:forEach items="${memberList}" var="memberVO" varStatus="stat" >
                           
-                          <tr class ="
+                          <tr style="margin-top: 10px;" class ="
                           	<c:if test='${index.count%2==0}'>even</c:if>
                           	<c:if test='${index.count%2==1}'>odd</c:if>
                           ">
-                            <td>
+                            <td class="text-center">
                               <div class="avatar avatar-md">
                               	<p class="mb-0 text-muted"><strong>${stat.count+(data.currentPage*10)-10}</strong></p>
                               </div>
                             </td>
                             <td>
+                                <p class="mb-0 text-muted"><strong>${memberVO.memType}</strong></p>
+                            </td>
+                            <td>
+                              <p class="mb-0 text-muted"><strong>${memberVO.memColCode}</strong></p>
+                              <c:if test='{memberVO.memType == "학생" or memberVO.memType == "교수" }'>
+                              	    <p class="mb-0 text-muted"><strong>${memberVO.memColCode}</strong></p>
+                              </c:if>
+                              <p class="mb-0 text-muted"><strong>${memberVO.memEmpDv}</strong></p>
+                              <c:if test='{memberVO.memType == "교직원" }'>
+                              	    <p class="mb-0 text-muted"><strong>${memberVO.memEmpDv}</strong></p>
+                              </c:if>
+                            </td>
+                            <td>
+                              <p class="mb-0 text-muted"><strong>${memberVO.memDepCode}</strong></p>
+                              <c:if test='{memberVO.memType == "학생" or memberVO.memType == "교수" }'>
+                              	    <p class="mb-0 text-muted"><strong>${memberVO.memDepCode}</strong></p>
+                              </c:if>
+                              <p class="mb-0 text-muted"><strong>${memberVO.memEmpSe}</strong></p>
+                              <c:if test='{memberVO.memType == "교직원" }'>
+                              	    <p class="mb-0 text-muted"><strong>${memberVO.memEmpSe}</strong></p>
+                              </c:if>
+                            </td>
+                            <td class="text-center">
                               <p class="mb-0 text-muted"><strong>${memberVO.memNo}</strong></p>
                             </td>
-                            <td>
+                            <td class="text-center">
                               <p class="mb-0 text-muted">${memberVO.memNm}</p>
                             </td>
-                            <td>
+                            <td class="text-center">
                               <p class="mb-0 text-muted"><a href="#" class="text-muted">${memberVO.memBir}</a></p>
                             </td>
-                            <td class="w-25"><small class="text-muted">${memberVO.memTel}</small></td>
-                            <td>
-                            <button type="button" id="hov" class="btn btn-primary bg-my text-white" style="color:white; border-color:transparent; height:40px;" onclick="openMemberDetail('${memberVO.memNo}')">상세</button>
+                            <td class="mb-0 text-muted text-center"><small class="text-muted">${memberVO.memTel}</small></td>
+                            <td class="text-center">
+                            <button type="button" id="hov" class="btn btn-my" style="color:white; border-color:transparent; height:40px;" onclick="openMemberDetail('${memberVO.memNo}')">상세</button>
                             </td>
                           </tr>
                           </c:forEach>
@@ -136,25 +163,27 @@
 	                      <nav aria-label="Table Paging" class="mb-0 text-muted">
 	                        <ul class="pagination justify-content-center mb-0">
 	                          <li class="paginate_button page-item previous
-	                          	<c:if test='${data.startPage lt 6}'>disabled</c:if>
+	                          	<c:if test='${param.currentPage==1}'>disabled</c:if>
 	                          " 
-	                          	id="dataTable_previous"><a class="page-link " href="/admin/member?currentPage=${data.startPage-5}&size=${data.size}" aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+	                          	id="dataTable_previous"><a class="page-link " href="/admin/member?currentPage=${param.currentPage - 1}&size=${data.size}" aria-controls="dataTable" data-dt-idx="0" tabindex="0"
 	                          	>Previous</a></li>
 	                          	
 	                          <c:forEach var="pNo" begin="${data.startPage}" end="${data.endPage+4}">
+	                            <c:if test="${pNo <= data.totalPages }">
 	                          	<li class='paginate_button page-item
 	                          		<c:if test="${param.currentPage==pNo}">active</c:if>
 	                          	'><a class="page-link" href="/admin/member?currentPage=${pNo}&size=${data.size}" aria-controls="dataTable" data-dt-idx="1" tabindex="0"
-	                          	>${pNo}</a></li>	
+	                          	>${pNo}</a></li>
+	                          	</c:if>	
 	                          </c:forEach>
 	                         
 	                          <li class="paginate_button page-item next
-	                          	<c:if test='${data.endPage ge data.totalPages}'>disabled</c:if>
+	                          	<c:if test='${param.currentPage == data.totalPages}'>disabled</c:if>
 	                          " id="dataTable_next"><a
-	                           class="page-link" href="/admin/member?currentPage=${data.startPage+5}&size=${data.size}" aria-controls="dataTable" data-dt-idx="7" tabindex="0">Next</a></li>
+	                           class="page-link" href="/admin/member?currentPage=${param.currentPage+1}&size=${data.size}" aria-controls="dataTable" data-dt-idx="7" tabindex="0">Next</a></li>
 	                        </ul>
 	                      </nav>
-                      </div>
+                      </div>	
                     </div>
                   </div>
                 </div> <!-- customized table -->
@@ -209,7 +238,7 @@
       
       function openMemberRegister() {
     	  //사용자등록 페이지로 이동
-    	  window.location.href = "/admin/memberRegister";
+    	  location.href = "/admin/memberRegister";
       }
       
       function openMemberDetail(memNo) {

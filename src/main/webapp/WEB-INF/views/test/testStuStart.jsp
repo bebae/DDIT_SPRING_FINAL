@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!doctype html>
 <html lang="en">
@@ -9,60 +11,47 @@
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="col-12">
-				<h2 class="page-title">시험응시</h2>
-				<p class="text-muted">강의이름</p>
+				<h2 class="page-title" style="text-align:center;">시험응시</h2>
+				<p class="text-muted" style="text-align:center;">${testStuVO[0].lecaNm }</p>
 				<div class="card-deck">
-
 					<div class="card shadow mb-4">
-						<div class="card-header">
-							<strong class="card-title">시험이름</strong>
+						<div class="card-header" style="text-align:center;">
+							<strong class="card-title">${testStuVO[0].testNm }</strong>
 						</div>
 						<div class="card-body">
-							<form>
-								<div class="form-group row">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">문제</label>
-									<div class="col-sm-9">
-										<input type="" class="form-control" id="inputEmail3"
-											placeholder="">
-									</div>
-								</div>
-
-								<fieldset class="form-group">
-									<div class="row">
-										<label class="col-form-label col-sm-3 pt-0">보기</label>
-										<div class="col-sm-9">
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios1" value="option1" checked>
-												<label class="form-check-label" for="gridRadios1">
-													1보기 </label>
+							<form action="/stu/testStuStart" method="post" id="testForm">
+							<sec:csrfInput/>
+							<c:set var="testNo" value="1"></c:set>
+							<input type="hidden" name="lecCode" value="${testStuVO[0].lecCode }">
+							<input type="hidden" name="memNo" value="">
+							<c:forEach items="${testStuVO}" var="testStuVO" varStatus="stat">
+								<c:if test="${stat.index % 4 == 0 }">
+								<div id="problems" class="card my-3">
+									<div class="card-body">
+										<div class="form-group m-0" id="problem">
+											<h5 class="card-title h6">
+												${testNo}.
+												${testStuVO.steQue}
+											</h5>
+											<!-- 보기 시작 -->
+								</c:if>
+											<div class="form-check py-2 card-text">
+												<input class="form-check-input" type="radio" name="${testStuVO.steNo}" id="steType${testStuVO.steNo}option${testStuVO.steSelectNo}" value="${testStuVO.steSelectNo}">
+												<label class="form-check-label" for="steType${testStuVO.steNo}option${testStuVO.steSelectNo}">${testStuVO.steSelect}</label>
+<%-- 												<input type="text" readonly class="form-control" id="steSelect" name="steSelect" value="${testStuVO.steSelect}"> --%>
 											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios2" value="option2">
-												<label class="form-check-label" for="gridRadios2">
-													2보기 </label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios2" value="option2">
-												<label class="form-check-label" for="gridRadios2">
-													3보기 </label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios2" value="option2">
-												<label class="form-check-label" for="gridRadios2">
-													4보기 </label>
-											</div>
+								<c:if test="${stat.index % 4 == 3 }">
+										<!-- 보기 끝 -->
 										</div>
 									</div>
-								</fieldset>
-								<hr />
-
-								<div class="form-group mb-2" style="text-align: center;">
-									<button type="submit" class="btn btn-my" id="testBtn">제출</button>
 								</div>
+								<c:set var="testNo" value="${testNo+1 }"></c:set>
+								</c:if>
+							</c:forEach>
+							<div class="form-group mb-2" style="text-align: center;">
+								<button type="submit" class="btn btn-my" id="testBtn">제출</button>
+								<button type="button" class="btn btn-primary" id="autoFill">자동 완성</button>
+							</div>
 							</form>
 						</div>
 					</div>
@@ -75,142 +64,72 @@
 	</div>
 	<!-- .row -->
 	</div>
+
 	
-	<div class="modal fade modal-shortcut modal-slide" tabindex="-1"
-		role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="defaultModalLabel">Shortcuts</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body px-5">
-					<div class="row align-items-center">
-						<div class="col-6 text-center">
-							<div class="squircle bg-success justify-content-center">
-								<i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Control area</p>
-						</div>
-						<div class="col-6 text-center">
-							<div class="squircle bg-primary justify-content-center">
-								<i class="fe fe-activity fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Activity</p>
-						</div>
-					</div>
-					<div class="row align-items-center">
-						<div class="col-6 text-center">
-							<div class="squircle bg-primary justify-content-center">
-								<i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Droplet</p>
-						</div>
-						<div class="col-6 text-center">
-							<div class="squircle bg-primary justify-content-center">
-								<i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Upload</p>
-						</div>
-					</div>
-					<div class="row align-items-center">
-						<div class="col-6 text-center">
-							<div class="squircle bg-primary justify-content-center">
-								<i class="fe fe-users fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Users</p>
-						</div>
-						<div class="col-6 text-center">
-							<div class="squircle bg-primary justify-content-center">
-								<i class="fe fe-settings fe-32 align-self-center text-white"></i>
-							</div>
-							<p>Settings</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </main>
 <!-- main -->
 </div>
 <!-- .wrapper -->
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/moment.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/simplebar.min.js"></script>
-<script src='js/daterangepicker.js'></script>
-<script src='js/jquery.stickOnScroll.js'></script>
-<script src="js/tinycolor-min.js"></script>
-<script src="js/config.js"></script>
-<script src="js/apps.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async
-	src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
 
+
+<script async
+	src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1">
+	
+	window.dataLayer = window.dataLayer || [];
+	
 	function gtag() {
 		dataLayer.push(arguments);
 	}
 	gtag('js', new Date());
 	gtag('config', 'UA-56159088-1');
+	
+	
+	
 </script>
 
+
 <script>
-				 $(document).ready(function () {
-				        $("#testBtn").click(function () {
-				            swal({
-				                position: 'top-end',
-				                icon: 'success',
-				                title: '제출되었습니다',
-				                showConfirmButton: false,
-				                timer: 2000
-				            });
-				        });
-				    });
-				
-					$("#applyBtn").on("click", () => {
-				       let dormitoryApplyFormVO = {
-				    	   : $("#").val(),
-				    	    : $("#").val(),
-				    	    : $("#").val(),
-				    	    : $("#").val(),
-				    	    : $("#").val(),
-				       }
-				       console.log("dormitoryApplyFomrVO : ", dormitoryApplyFormVO);
-				       let csrfHeader = $("#_csrf_header").attr('content')
-					   let csrfToken = $("#_csrf").attr('content')
-				       $.ajax({
-				           type:"post",
-				           url:"/stu/dormitoryApply",
-				           data: JSON.stringify(dormitoryApplyFormVO),
-				           contentType:"application/json;charset=utf-8",
-				           dataType:"text",
-				           beforeSend: function(xhr) {
-								xhr.setRequestHeader(csrfHeader, csrfToken);
-				                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-				                xhr.setRequestHeader("Content-type","application/json");
-				           },
-				           success:function(rslt){
-				               console.log(rslt);
-				               
-				               if(rslt == 1){
-				                   //alert("성공");
-				                   
-				               }
-				           },
-				           error: function (xhr, status, error) {
-				               console.log("code: " + xhr.status)
-				               console.log("message: " + xhr.responseText)
-				               console.log("error: " + error);
-				           }
-						})
-					});
-				</script>
+$("#autoFill").on("click", function() {
+	
+	// autoFill 버튼 클릭 시 실행될 코드
+    // 10개의 문제에 대해 라디오 버튼을 1번부터 4번까지의 순서대로 선택합니다.
+
+    // 보기의 라디오 버튼을 선택하는데 사용할 클래스 이름 설정
+    const radioClassName = "form-check-input";
+
+    // 모든 라디오 버튼 요소를 가져오기
+    const radioButtons = document.querySelectorAll("." + radioClassName);
+
+    // 라디오 버튼 선택을 위한 순서 배열
+    const answerSequence = [2, 2, 1, 2, 3, 1, 4, 1, 4, 1]; // 10개의 문제에 대한 선택 순서
+
+    // 라디오 버튼 선택
+    answerSequence.forEach(function(answer, index) {
+        radioButtons[index * 4 + answer - 1].checked = true;
+    });
+})
+
+
+
+// $(document).ready(function() {
+//     $("#testBtn").click(function() {
+
+//         const lecCode = "${testStuVO[0].lecCode}";
+        
+// //         rslt = true;
+        
+//         if (rslt) {
+//             Swal.fire({
+//                 icon: 'success',
+//                 title: "시험이 제출되었습니다"
+//             }).then((result) => {
+//                 location.href = "/stu/testNotice/?lecCode=" + lecCode;
+//             });
+//         } else {
+//             Swal.fire("시험이 제출되지 않았습니다");
+//         }
+//     });
+// });
+</script>
 </body>
 </html>

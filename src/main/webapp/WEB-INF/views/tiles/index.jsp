@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-    <title>Tiny Dashboard - A Bootstrap Dashboard Template</title>
+<!--     <link rel="icon" href="favicon.ico"> -->
+<link rel="shortcut icon" type="image/x-icon" href="/resources/master/light/assets/avatars/로고2.png">
+    <title>취업딱대학교</title>
     <!-- Simple bar CSS -->
     <link rel="stylesheet" href="/resources/master/light/css/simplebar.css">
     <!-- Fonts CSS -->
@@ -29,9 +30,13 @@
     <link rel="stylesheet" href="/resources/master/light/css/app-dark.css" id="darkTheme" disabled>
     
     <link rel="stylesheet" href="/resources/css/common.css">
-    
+    <link rel="stylesheet" href="/resources/weather-icons-master/css/weather-icons.css">
+    <link rel="stylesheet" href="/resources/weather-icons-master/css/weather-icons-wind.css">
+
   </head>
   <body class="vertical  light  ">
+    <!-- 마우스 효과를 위한 div -->
+<!--     <div class="custom-cursor"></div> -->
     <div class="wrapper">
       <!-- /////////////////////// header 시작 ///	///////////////////////////// -->
       <tiles:insertAttribute name="header" />
@@ -58,119 +63,16 @@
                 </button>
               </div>
               <div class="modal-body">
-                <div class="list-group list-group-flush my-n3">
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-box fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>패키지가 성공적으로 업로드 되었습니다</strong></small>
-                        <div class="my-0 text-muted small">패키지가 압축 업로드 되었습니다.</div>
-                        <small class="badge badge-pill badge-light text-muted">1분 전</small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-download fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>위젯이 성공적으로 업데이트 되었습니다</strong></small>
-                        <div class="my-0 text-muted small">새로운 레이아웃 인덱스, 폼, 테이블을 생성하세요.</div>
-                        <small class="badge badge-pill badge-light text-muted">2분 전</small>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-inbox fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>알림이 전송되었습니다</strong></small>
-                        <div class="my-0 text-muted small">알림을 전송했는데?</div>
-                        <small class="badge badge-pill badge-light text-muted">30분 전</small>
-                      </div>
-                    </div> <!-- / .row -->
-                  </div>
-                  <div class="list-group-item bg-transparent">
-                    <div class="row align-items-center">
-                      <div class="col-auto">
-                        <span class="fe fe-link fe-24"></span>
-                      </div>
-                      <div class="col">
-                        <small><strong>메뉴에 링크를 첨부했습니다</strong></small>
-                        <div class="my-0 text-muted small">메뉴에 새로운 레이아웃을 추가되었습니다.</div>
-                        <small class="badge badge-pill badge-light text-muted">1시간 전</small>
-                      </div>
-                    </div>
-                  </div> <!-- / .row -->
+                <div  id="bjList" class="list-group list-group-flush my-n3">
                 </div> <!-- / .list-group -->
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">전체 확인</button>
+                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal" onclick="back()">전체 확인</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="defaultModalLabel">단축키</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body px-5">
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-success justify-content-center">
-                      <i class="fe fe-cpu fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>설정 페이지</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-activity fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>액티비티</p>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-droplet fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>작은 물방울</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-upload-cloud fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>업로드</p>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-users fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>유저들</p>
-                  </div>
-                  <div class="col-6 text-center">
-                    <div class="squircle bg-primary justify-content-center">
-                      <i class="fe fe-settings fe-32 align-self-center text-white"></i>
-                    </div>
-                    <p>설정</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </main> <!-- main -->
     </div> <!-- .wrapper -->
     <script src="/resources/master/light/js/jquery.min.js"></script>
@@ -297,59 +199,18 @@
       if (editor)
       {
         var toolbarOptions = [
-          [
-          {
-            'font': []
-          }],
-          [
-          {
-            'header': [1, 2, 3, 4, 5, 6, false]
-          }],
+          [{'font': []}],
+          [{'header': [1, 2, 3, 4, 5, 6, false]}],
           ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
-          [
-          {
-            'header': 1
-          },
-          {
-            'header': 2
-          }],
-          [
-          {
-            'list': 'ordered'
-          },
-          {
-            'list': 'bullet'
-          }],
-          [
-          {
-            'script': 'sub'
-          },
-          {
-            'script': 'super'
-          }],
-          [
-          {
-            'indent': '-1'
-          },
-          {
-            'indent': '+1'
-          }], // outdent/indent
-          [
-          {
-            'direction': 'rtl'
-          }], // text direction
-          [
-          {
-            'color': []
-          },
-          {
-            'background': []
-          }], // dropdown with defaults from theme
-          [
-          {
-            'align': []
-          }],
+          [{'header': 1}, {'header': 2}],
+          [{'list': 'ordered'},{'list': 'bullet'}],
+          [{'script': 'sub'},{'script': 'super'}],
+          [{'indent': '-1'},{'indent': '+1'}], // outdent/indent
+          [{'direction': 'rtl'}], // text direction
+          [{'color': []},
+          {'background': []}], // dropdown with defaults from theme
+          [{'align': []}],
           ['clean'] // remove formatting button
         ];
         var quill = new Quill(editor,
@@ -421,6 +282,25 @@
       gtag('js', new Date());
       gtag('config', 'UA-56159088-1');
     </script>
+	<!-- SweetAlert JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- chartjs JS -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- 마우스 커서 효과 JS -->
+  <script>
+//       const customCursor = document.querySelector('.custom-cursor');
+
+//       document.addEventListener('mousemove', (e) => {
+//           // 마우스 커서의 위치로 동그라미 이동
+//           customCursor.style.left = `\${e.clientX}px`;
+//           customCursor.style.top = `\${e.clientY}px`;
+//       });
+	function back() {
+		$("#kjBell").css("display","none");
+	}
+  </script>
+	
     <!-- /////////////////////// footer 시작 //////////////////////////////// -->
       <tiles:insertAttribute name="footer" />
     <!-- /////////////////////// footer 끝 //////////////////////////////// -->

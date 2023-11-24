@@ -10,7 +10,7 @@
 		<div class="row justify-content-center">
 			<div class="col-12">
 				<h2 class="page-title">성적조회</h2>
-				<p class="text-muted">과목명</p>
+				<p class="text-muted">강의명</p>
 				<div class="card-deck">
 
 					<div class="card shadow mb-4">

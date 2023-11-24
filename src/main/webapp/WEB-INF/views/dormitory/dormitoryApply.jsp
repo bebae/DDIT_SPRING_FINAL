@@ -5,53 +5,53 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 
-<main role="main" class="main-content" style="width: 70%; margin: auto;">
+<main role="main" class="main-content mx-auto" style="width: 85%; margin: auto;">
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="col-12">
-				<h2 class="page-title">기숙사 신청</h2>
-				<p class="text-muted">2023학년도 2학기 기숙사 신청</p>
+				<h2 class="h4 mb-1" style="text-align:center;">기숙사 신청</h2>
+				<p class="text-muted" style="text-align:center;">2023학년도 2학기 기숙사 신청</p>
 				<%-- 					<p>${dormitoryApplyFormVO}</p> --%>
 				<div class="card shadow mb-4">
 
-					<div class="card-body">
+					<div class="card-body" >
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group mb-3">
-									<label for="memNm">이름</label>
-									<input type="text" id="memNm" name="memNm" class="form-control" placeholder="이름" value="${dormitoryApplyFormVO.memNm}">
+									<label for="memNm"><strong>* 이름</strong></label>
+									<input type="text" id="memNm" name="memNm" class="form-control" placeholder="이름" value="${dormitoryApplyFormVO.memNm}" readonly>
 								</div>
-								<label for="example-palaceholder">성별</label>
+								<label for="example-palaceholder"><strong>* 성별</strong></label>
 								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" id="genderMale" name="doraGender" value="M">
+									<input type="radio" class="custom-control-input" id="genderMale" name="doraGender" value="남">
 									<label class="custom-control-label" for="genderMale">남자</label>
 								</div>
 								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" id="genderFemale" name="doraGender" value="F">
+									<input type="radio" class="custom-control-input" id="genderFemale" name="doraGender" value="여">
 									<label class="custom-control-label" for="genderFemale">여자</label>
 								</div>
 								<br />
 								<div class="form-group mb-3">
-									<label for="memBir">생년월일</label>
-									<input type="text" id="memBir" name="memBir" class="form-control" placeholder="생년월일" value="${dormitoryApplyFormVO.memBir}">
+									<label for="memBir"><strong>* 생년월일</strong></label>
+									<input type="text" id="memBir" name="memBir" class="form-control" placeholder="생년월일" value="${dormitoryApplyFormVO.memBir}" readonly>
 								</div>
 								<div class="form-group mb-3">
-									<label for="stuMemNo">학번</label>
-									<input type="text" id="stuMemNo" name="stuMemNo" class="form-control" placeholder="학번" value="${dormitoryApplyFormVO.memNo}">
+									<label for="stuMemNo"><strong>* 학번</strong></label>
+									<input type="text" id="stuMemNo" name="stuMemNo" class="form-control" placeholder="학번" value="${dormitoryApplyFormVO.memNo}" readonly>
 								</div>
 								<div class="form-group mb-3">
-									<label for="depNm">학과</label>
-									<input type="text" id="depNm" name="depNm" class="form-control" placeholder="학과" value="${dormitoryApplyFormVO.depNm}">
+									<label for="depNm"><strong>* 학과</strong></label>
+									<input type="text" id="depNm" name="depNm" class="form-control" placeholder="학과" value="${dormitoryApplyFormVO.depNm}" readonly>
 								</div>
 								<div class="form-group mb-3">
-									<label for="codNm">단과대학</label>
-									<input type="text" id="codNm" class="form-control" placeholder="단과대학" value="${dormitoryApplyFormVO.codNm}">
+									<label for="codNm"><strong>* 단과대학</strong></label>
+									<input type="text" id="codNm" class="form-control" placeholder="단과대학" value="${dormitoryApplyFormVO.codNm}" readonly>
 								</div>
 								<div class="form-group mb-3">
-									<label for="doraGrd">학점</label>
-									<input type="text" id="doraGrd" name="doraGrd" class="form-control" placeholder="학점">
+									<label for="doraGrd"><strong>* 학점</strong></label>
+									<input type="text" id="doraGrd" name="doraGrd" class="form-control" placeholder="학점" >
 								</div>
-								<label>신입생여부</label>
+								<label><strong>* 신입생 여부</strong></label>
 								<div class="custom-control custom-radio">
 									<input type="radio" class="custom-control-input" id="freshY" name="fresh" value="Y">
 									<label class="custom-control-label" for="freshY">Y</label>
@@ -62,7 +62,7 @@
 								</div>
 								<br />
 								<div class="form-group mb-3">
-									<label for="codeDoraReg">거주지역</label>
+									<label for="codeDoraReg"><strong>* 거주지역</strong></label>
 									<select class="custom-select" id="codeDoraReg" name="codeDoraReg">
 										<option>거주지역 선택</option>
 										<option value="경기도">경기도</option>
@@ -80,15 +80,15 @@
 							<!-- /.col -->
 							<div class="col-md-6">
 								<div class="form-group mb-3">
-									<label for="doraYr">신청연도</label>
+									<label for="doraYr"><strong>* 신청연도</strong></label>
 									<input type="text" id="doraYr" class="form-control" name="doraYr" readonly value="2023">
 								</div>
 								<div class="form-group mb-3">
-									<label for="example-disable">신청학기</label>
+									<label for="example-disable"><strong>* 신청학기</strong></label>
 									<input type="text" class="form-control" id="doraSem" name="doraSem" readonly value="2">
 								</div>
 								<div class="form-group mb-3">
-									<label for="doraName">신청 기숙사명</label>
+									<label for="doraName"><strong>* 신청기숙사명</strong></label>
 									<select class="custom-select" id="doraNameCode" name="doraNameCode">
 										<option>신관/구관 선택</option>
 										<option value="구관(여자)">구관(여자)</option>
@@ -98,20 +98,20 @@
 									</select>
 								</div>
 								<div class="form-group mb-3">
-									<label for="dorNo">희망호수</label>
+									<label for="dorNo"><strong>* 희망호수</strong></label>
 									<p class="text-muted">신관(101~120),구관(101~120)</p>
-									<input type="text" id="dorNo" name="dorNo" class="form-control">
+									<input type="text" id="dorNo" name="dorNo" class="form-control" placeholder="ex) 101">
 								</div>
 								<div class="form-group mb-3">
-									<label for="memTel">연락처</label>
-									<input type="text" id="memTel" name="memTel" class="form-control" placeholder="연락처" value="${dormitoryApplyFormVO.memTel}">
+									<label for="memTel"><strong>* 연락처</strong></label>
+									<input type="text" id="memTel" name="memTel" class="form-control" placeholder="연락처" value="${dormitoryApplyFormVO.memTel}" readonly>
 								</div>
 								<div class="form-group mb-3">
-									<label for="memTel2">비상연락처</label>
-									<input type="text" id="memTel2" class="form-control" placeholder="비상연락처" value="${dormitoryApplyFormVO.memTel2}">
+									<label for="memTel2"><strong>* 비상연락처</strong></label>
+									<input type="text" id="memTel2" class="form-control" placeholder="비상연락처" value="${dormitoryApplyFormVO.memTel2}" readonly>
 								</div>
 								<div class="form-group">
-									<label for="example-palaceholder">신청사유</label>
+									<label for="example-palaceholder"><strong>* 신청사유</strong></label>
 									<label for="exampleFormControlTextarea1" class="sr-only">Your Message</label>
 									<textarea class="form-control bg-light" id="doraRsn" name="doraRsn" rows="2"></textarea>
 								</div>
@@ -123,7 +123,10 @@
 					</div>
 				</div>
 				<!-- / .card -->
-
+			</div>
+		</div>
+	</div>
+</main>
 
 
 
@@ -153,18 +156,6 @@
 				</script>
 				
 				<script>
-				 $(document).ready(function () {
-				        $("#applyBtn").click(function () {
-				            swal({
-				                position: 'top-end',
-				                icon: 'success',
-				                title: '신청되었습니다',
-				                showConfirmButton: false,
-				                timer: 2000
-				            });
-				        });
-				    });
-				
 					$("#applyBtn").on("click", () => {
 				       let dormitoryApplyFormVO = {
 			    		   stuMemNo: $("#stuMemNo").val(),
@@ -196,9 +187,17 @@
 				               console.log(rslt);
 				               
 				               if(rslt == 1){
-				                   //alert("성공");
-				                   
-				               }
+				   	   			Swal.fire({
+				  	   		      icon: 'success',
+				  	   		      title: "신청이 완료되었습니다"
+				  	   		    }).then((result) => {
+				     		    		window.location.href = "/stu/dormitory";	
+				  	   		    })
+				     			 	
+				     					
+				     			} else {
+				     				Swal.fire("신청실패");	
+				     			}
 				           },
 				           error: function (xhr, status, error) {
 				               console.log("code: " + xhr.status)
