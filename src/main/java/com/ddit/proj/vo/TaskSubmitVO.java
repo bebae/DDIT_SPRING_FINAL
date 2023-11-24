@@ -1,6 +1,6 @@
 package com.ddit.proj.vo;
 
-import java.util.Date;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +12,20 @@ import lombok.ToString;
 public class TaskSubmitVO {
 	
 	private String tsubCode;
-	private int taskCode;
+	private String taskCode;
 	private String memNo;
-	private Date tsubDt;
+	private String tsubDt;
 	private String tsubCon;
 	private int codeTsubScore;
-	private Date tsubUpdde;
+	private String tsubUpdde;
+	private String fileId;
+		
+		private String lecCode;
+		private String memNm;
+		
+		private MultipartFile uploadFile;
+		private String filePath;
+		private String fileOriNm;
+		private String fileExtsn;
+		private String fileSize;
 }

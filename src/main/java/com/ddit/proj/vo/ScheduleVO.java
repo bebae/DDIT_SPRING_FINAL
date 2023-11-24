@@ -20,9 +20,14 @@ public class ScheduleVO {
     private String uMemNo;
     private String uSchUpdde;
     private String memNm;
+    private String codeSchSeNm; // 학사분류 이름
+    private String codeSchSeMemNm; // 학사 ㅣ일정 대상 이름
+
+
+    public ScheduleVO(){}
 
     public ScheduleVO(String memNo, String schTtl, String schSt, String schEt, String codeSchSe, String codeSchMem) {
-        this.memNm = memNo;
+        this.memNo = memNo;
         this.schTtl = schTtl;
         this.schSt = schSt;
         this.schEt = schEt;

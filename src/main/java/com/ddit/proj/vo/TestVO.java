@@ -1,6 +1,6 @@
 package com.ddit.proj.vo;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class TestVO {
 	private int testCode;
-	private int lecCode;
+	private String lecCode;
 	private String testNm;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -23,9 +23,11 @@ public class TestVO {
 	private String testEt;
 	private String testStartYn;
 	private String testLimit;
+	private String ansYn;
 	
 	// TextExamVO를 List로 추가
 	private List<TestExamVO> testExamList;
 	
+	private String memNo;
 	
 }

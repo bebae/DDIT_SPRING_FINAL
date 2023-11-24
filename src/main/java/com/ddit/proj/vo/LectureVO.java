@@ -10,9 +10,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureVO {
-	
+
 	private String lecCode;
-	private int subCode;
+	private String subCode;
 	private String lecaId;
 	private String lecStatYn;
 	private int lecHcnt;
@@ -20,8 +20,16 @@ public class LectureVO {
 	private String lecDelYn;
 	private int roomNo;
 	private String bldCode;
-	private int lecClsNm;
-	
-	//1 : N
+
+	// 1 : N
 	private List<LectureDetailVO> lectureDetailVO;
+
+	private int lecaYr;
+	private int lecaSem;
+	private int lecaTrg;
+	private String lecaNm;
+	private String depNm;
+	private String memNm;
+	private String memNo;
+	private String memTel;
 }

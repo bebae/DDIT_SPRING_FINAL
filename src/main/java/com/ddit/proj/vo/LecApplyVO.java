@@ -14,6 +14,7 @@ public class LecApplyVO {
 	
 	private String lecaId;
 	private String memNo;
+	private String memNm;
 	private String subCode;
 	private int lecaYr;
 	private int lecaSem;
@@ -21,16 +22,16 @@ public class LecApplyVO {
 	private String lecaSeCode;
 	private int lecaTrg;
 	private int lecaCrd;
-	private int lecaTime;
+	private int lecaCount;
 	private int lecaCap;
-	private Date lecaDt;
+	private String lecaDt;
 	private String lecaStdCode;
 	private String lecaYn;
 	
 	//강의계획서 평가 기준
 	private String codeId;
 	private String codeNm;
-	
+	 
 	//1 : N
 	private List<LectureVO> lectureVOList;
 	

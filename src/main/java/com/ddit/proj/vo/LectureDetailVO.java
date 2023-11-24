@@ -12,8 +12,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LectureDetailVO {
+	private int lecdNo;
 	private String lecCode;
 	private String lecdWeek;
-	private int lecdSt;
-	private int lecdEt;
+	private String lecdSt;
+	private String lecdEt;
 }
