@@ -27,6 +27,9 @@ public interface DormitoryMapper {
 	
 	DormitoryApplyFormVO dormitoryDetail(String memNo);
 	
+	// 상/벌점 조회
+	DormitoryApplyFormVO detailScore(String memNo);
+	
 	// 외박 insert
 	int  insertDormiSleep(DormitorySleepOverVO dormitorySleepOverVO);
 	

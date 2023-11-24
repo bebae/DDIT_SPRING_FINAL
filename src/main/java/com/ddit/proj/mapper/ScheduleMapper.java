@@ -1,6 +1,7 @@
 package com.ddit.proj.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ddit.proj.vo.ScheduleVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +19,14 @@ public interface ScheduleMapper {
 	// update
 	int  updateSchedule(ScheduleVO scheduleVO);
 	// delete
-	int  deleteSchedule(ScheduleVO scheduleVO);
+	int  deleteSchedule(String schCode);
+
+	// 공통코드 가져오기
+	List<ScheduleVO> getCodeSchSeNm();
+	List<ScheduleVO> getCodeSchSeMemNm();
+
+	// select
+	List<ScheduleVO> getSeletSchedule(Map<String, String> map);
+
 
 }
