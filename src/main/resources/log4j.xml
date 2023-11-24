@@ -17,7 +17,7 @@
 	
 	<!-- security만 일단 debug로 메세지 자세하게 -->
 	<logger name="org.springframework.security">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

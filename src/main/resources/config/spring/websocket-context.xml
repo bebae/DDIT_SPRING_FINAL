@@ -6,11 +6,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--  서버 소켓쪽 핸들러  등록-->
-	<bean id="chatHandler"  class="com.chaehyun.fashion.handler.ChatHandler" />
+	<bean id="chatHandler"  class="com.ddit.proj.handler.ChatHandler" />
 	<!--  Cross-Origin등록 -->
 	<websocket:handlers allowed-origins="*">
 	   <!--  End-Point등록  중계소? -->
-		<websocket:mapping handler="chatHandler" path="/ws-chat" />
+		<websocket:mapping handler="chatHandler" path="/emrsoc" />
 		<websocket:handshake-interceptors>
 		    <!--  HttpSession 공유 -->
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />

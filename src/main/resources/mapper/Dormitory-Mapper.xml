@@ -16,7 +16,7 @@
    		FROM STUDENT b INNER JOIN MEMBER c ON (b.MEM_NO=c.MEM_NO))   where mem_no = #{memNo}
 	</select>
 
-	<select id="dormitoryDetail">
+	<select id="dormitoryDetail" parameterType="String">
 		SELECT
 		    a.mem_no mem_no,
 		    a.mem_nm mem_nm,
@@ -113,8 +113,13 @@
 		stu_mem_no=#{stuMemNo}
 	</delete>
 
-
-
+	<!-- 상/벌점 조회 -->
+	<select id="detailScore" parameterType="DormitoryApplyFormVO" resultType="DormitoryApplyFormVO">
+		SELECT dorm_penalties
+			 , dorm_rewards
+		FROM   dor_application
+		WHERE  stu_mem_no= #{memNo}
+	</select>
 
 
 

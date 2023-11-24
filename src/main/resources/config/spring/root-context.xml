@@ -16,7 +16,7 @@
 	
 	<!-- 파일업로드 디렉토리 설정 -->
 	<bean id="uploadPath" class="java.lang.String">
-		<constructor-arg value="c:\\upload" />
+		<constructor-arg value="D:\\myTool\\sts3WS\\dditProj\\src\\main\\webapp\\resources\\upload" />
 	</bean>
 		 
 	 <!-- 스프링 AOP 활성화 -->
@@ -25,6 +25,26 @@
 	 <!-- kr.or.ddit.aop 패키지를 컴포넌트 스캔 대상으로 등록 
 	 <context:component-scan base-package="aop패키지" />
 	 -->
+	
+	<!-- mailSender 빈 설정 (메일)-->
+	   <bean id="mailSender"
+	      class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	      <property name="host" value="smtp.naver.com" />
+	      <property name="port" value="465" />
+	      <property name="username" value="kch774386@naver.com" /> <!-- 이메일 아이디 -->
+	      <property name="password" value="cogus0527@" /> <!-- 이메일 비밀번호 -->
+	      <!-- 보안연결 SSL과 관련된 설정 -->
+	      <property name="javaMailProperties">
+	         <props>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <prop key="mail.smtps.checkserveridentity">true</prop>
+	            <prop key="mail.smtps.ssl.trust">*</prop>
+	            <prop key="mail.debug">true</prop>
+	            <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+	         </props>
+	      </property>
+	   </bean>
 	
 	
 	 <import resource="database-context.xml"/>
