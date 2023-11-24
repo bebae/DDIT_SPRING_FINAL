@@ -19,13 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/stu")
-public class DormitoryController {
+public class DormitorySleepController {
+	
 	@Autowired
 	private DormitoryService dormitoryService;
+
 	
-	
-	@GetMapping("/dormitory")
-	public String applyForm(Model model, Authentication auth){
+	@GetMapping("/dormitorySleep")
+	public String insertSleepOverView(Model model, Authentication auth) {
 		
 		log.debug("체크{}",auth.getName());
 		
@@ -33,11 +34,26 @@ public class DormitoryController {
 		String memNo = auth.getName();
 		DormitoryApplyFormVO dormitoryFormVO = dormitoryService.dormitoryDetail(memNo);
 		log.debug("dormitoryFormVO" + dormitoryFormVO);
+		
+		// 상/벌점 조회
+		DormitoryApplyFormVO score = dormitoryService.detailScore(memNo);
+		log.info("체크 score{}", score);
 
 	    model.addAttribute("dormitoryFormVO", dormitoryFormVO);
-	    
+	    model.addAttribute("score", score);
 		
-		return "dormitory/dormitory";  // 신청 폼 화면
+		return "dormitory/dormitorySleep";
 	}
+	
+	@ResponseBody
+	@PostMapping("/dormitorySleep")
+	public String insertSleepOver(@RequestBody DormitorySleepOverVO dormitorySleepOverVO) {
+		
+		log.debug("체크 dormitorySleepOverVO{}",dormitorySleepOverVO);
+		
+		
+		return Integer.toString(dormitoryService.insertSleepOver(dormitorySleepOverVO));
+	}
+	
 	
 }

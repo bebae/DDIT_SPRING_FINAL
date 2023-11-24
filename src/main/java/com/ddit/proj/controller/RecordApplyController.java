@@ -23,13 +23,17 @@ public class RecordApplyController {
 	@Autowired
 	private RecordApplyService service;
 
-//	수강신청
-	@GetMapping("/lecApply")
-	public String getLecApply() {
-		return "lec/lecApply";
+	// 학적신청 상세보기
+	@ResponseBody
+	@GetMapping("/recDetail/{recCode}")
+	public RecordApplyVO getRecDetail(@PathVariable String recCode) {
+//		log.debug("recCode: " + recCode);
+
+		RecordApplyVO result = service.getRecDetail(recCode);
+		log.debug("recDetail: " + result);
+
+		return result;
 	}
-
-
 
 //	학적신청 페이지 이동
 	@GetMapping("/recApply")
@@ -40,8 +44,12 @@ public class RecordApplyController {
 
 	@ResponseBody
 	@GetMapping("/recApplyList")
-	public List<RecordApplyVO> getAllRecordApplyList() {
-		return service.getAllRecordApply();
+	public List<RecordApplyVO> getAllRecordApplyList(@RequestParam String memNo, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+//		log.debug("로그 학적리스트 : "+memNo);
+		List<RecordApplyVO> list = service.getAllRecordApply(memNo);
+//		log.debug("로그 학적리스트 : "+list);
+
+		return list;
 	}
 
 	//	학적신청 페이지에서 데이터 Insert
@@ -51,15 +59,15 @@ public class RecordApplyController {
 
 		// 받아온 데이터 확인
 		String recSeCode = (String) map.get("recSeCode");
+		String stuMemNo = (String) map.get("stuMemNo");
 		String recSde = (String) map.get("recSde");
 		String recEde = (String) map.get("recEde");
 		String recRsn = (String) map.get("recRsn");
-		String recApply = (String) map.get("recApply");
 
 	// 학적 신청 시 승인된 날짜 이후에 신청할 수 있게 하기
 		// 승인된 날짜의 가장 최근 값
 		String recEdeMax = service.recEdeMax();
-		log.info("로그 : recEdeMax : " + recEdeMax);
+		log.debug("로그 : recEdeMax : " + recEdeMax);
 
 		// 비교
 		// 문자열로 된 날짜 형식을 지정합니다. (YYYY-MM-DD)
@@ -70,7 +78,7 @@ public class RecordApplyController {
 
 		// Date 객체를 비교합니다.
 		if (dateRecSde.before(dateRecEdeMax) && dateRecEdeMax.after(dateRecSde)) {
-			log.info("recSde가 recEdeMax보다 이전 날짜입니다. ");
+			log.debug("recSde가 recEdeMax보다 이전 날짜입니다. ");
 			return "fail";
 		}
 
@@ -95,20 +103,18 @@ public class RecordApplyController {
 
 		RecordApplyVO recordApplyVO = new RecordApplyVO();
 		recordApplyVO.setRecSeCode(recSeCode);
+		recordApplyVO.setStuMemNo(stuMemNo);
 		recordApplyVO.setRecYr(recYr);
 		recordApplyVO.setRecSem(recSem);
 		recordApplyVO.setRecRsn(recRsn);
 		recordApplyVO.setRecSde(recSde);
 		recordApplyVO.setRecEde(recEde);
-		if (recApply != null) {
-			recordApplyVO.setRecApply(recApply);
-		}
 
 
 		int result = 0;
 		try {
 		    result = service.insertRecordApply(recordApplyVO);
-		    log.info("로그 : Insert 결과 : " + result);
+		    log.debug("로그 : Insert 결과 : " + result);
 		} catch (Exception e) {
 		    log.error("Insert 작업 중 오류 발생: " + e.getMessage(), e);
 		}
@@ -122,7 +128,7 @@ public class RecordApplyController {
 	public String deleteRecordApply(@PathVariable String recCode) {
 
 		// 받아온 데이터 확인
-		log.info("로그 : 매개값 " + recCode);
+		log.debug("로그 : 매개값 " + recCode);
 		int result = 0;
 
 		RecordApplyVO recordApplyVO = new RecordApplyVO();
@@ -130,7 +136,7 @@ public class RecordApplyController {
 
 		try {
 			result = service.deleteRecordApply(recordApplyVO);
-			log.info("로그 : Delete 처리 결과 : " + result);
+			log.debug("로그 : Delete 처리 결과 : " + result);
 		} catch (Exception e) {
 			log.error("Delete 작업 중 오류 발생: " + e.getMessage(), e);
 		}

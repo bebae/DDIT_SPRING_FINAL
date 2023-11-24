@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ddit.proj.service.TestService;
@@ -29,9 +31,12 @@ public class TestRegisterDetailController {
 	
 	
 	@GetMapping("/testDetail")
-	public String getTestNotice() {
-		log.info("체킁:");
-		return "test/testRegisterDetail";
+	public String getTestNotice(@RequestParam(required = false,defaultValue = "001") String lecCode, Model model) {
+		log.info("체킁:" + lecCode);
+		
+		model.addAttribute("lecCode", lecCode);
+		model.addAttribute("lecCd", lecCode);
+		return "proflec/test/testRegisterDetail";
 	}
 	
 	/*
@@ -52,7 +57,7 @@ public class TestRegisterDetailController {
 	@PostMapping("/testRegisterDetail")
 	@ResponseBody
 	public String insertTest(@RequestBody TestVO testVO) {
-	    log.debug("testVO {}", testVO);
+	    log.debug("testVO개똥이 {}", testVO);
 	    
 	    List<TestExamVO> exList = testVO.getTestExamList();
 	    

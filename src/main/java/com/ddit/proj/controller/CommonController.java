@@ -12,5 +12,10 @@ public class CommonController {
 	public String campus() {
 		return "common/campus";		// 캠퍼스맵 조회
 	}
+	
+	@GetMapping("/road")
+	public String road() {
+		return "common/road";		// 오시는 길 조회
+	}
 
 }

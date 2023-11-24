@@ -3,6 +3,7 @@ package com.ddit.proj.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,12 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityController {
 	
 	// 로그인 한 학생만 접근 가능 (최초 로그인만 해당)
-	@PreAuthorize("hasRole('ROLE_STUDENT')")  
-	@GetMapping("/student/modifyInfo")
-	public String modifyInfo() {
-		// forwarding
-		return "student/modifyInfo";
-	}
+//	@PreAuthorize("hasRole('ROLE_STUDENT')")  
+//	@GetMapping("/stu/modifyInfo")
+//	public String modifyInfo() {
+//		// forwarding
+//		return "student/modifyInfo";
+//	}
 	
 	
 	//학생(ROLE_STUDENT)
@@ -25,7 +26,7 @@ public class SecurityController {
 //	}
 	// 로그인 한 학생만 접근 가능
 	@PreAuthorize("hasRole('ROLE_STUDENT')")  
-	@GetMapping("/student/main")
+	@GetMapping("/stu/main")
 	public String studentMain() {
 		// forwarding
 		return "student/main";
@@ -37,7 +38,7 @@ public class SecurityController {
 //	}
 	// 로그인 한 교수만 접근 가능
 	@PreAuthorize("hasRole('ROLE_PROFESSOR')")  
-	@GetMapping("/professor/main")
+	@GetMapping("/prof/main")
 	public String professorMain() {
 		// forwarding
 		return "professor/main";
@@ -53,5 +54,5 @@ public class SecurityController {
 		// forwarding
 		return "admin/main";
 	}
-
+	
 }

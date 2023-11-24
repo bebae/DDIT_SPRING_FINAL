@@ -29,12 +29,8 @@ public class DormitoryApplyController {
 	@Autowired
 	private DormitoryService dormitoryService;
 	
-	// select, insert됨
 	@GetMapping("/dormitoryApplyForm")
 	public String applyForm(Model model,Authentication auth){
-		
-//		log.debug("체크{}",auth.getName());
-		
 		
 		String memNo = auth.getName();
 		DormitoryApplyFormVO dormitoryApplyFormVO = dormitoryService.getDormiFormVO(memNo);
@@ -65,9 +61,6 @@ public class DormitoryApplyController {
 	public String insertDormi(@RequestBody DormitoryApplyVO dormitoryApplyVO) {
 		return Integer.toString(dormitoryService.insertDormi(dormitoryApplyVO));
 	}
-	// select, insert됨
-	
-	
 	
 	
 	@PutMapping("/dormitoryApply")
