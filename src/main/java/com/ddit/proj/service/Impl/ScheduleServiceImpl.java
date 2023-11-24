@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -36,7 +37,22 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public int deleteSchedule(ScheduleVO scheduleVO) {
-        return mapper.deleteSchedule(scheduleVO);
+    public int deleteSchedule(String schCode) {
+        return mapper.deleteSchedule(schCode);
+    }
+
+    @Override
+    public List<ScheduleVO> getCodeSchSeNm() {
+        return mapper.getCodeSchSeNm();
+    }
+
+    @Override
+    public List<ScheduleVO> getCodeSchSeMemNm() {
+        return mapper.getCodeSchSeMemNm();
+    }
+
+    @Override
+    public List<ScheduleVO> getSeletSchedule(Map<String, String> map) {
+        return mapper.getSeletSchedule(map);
     }
 }

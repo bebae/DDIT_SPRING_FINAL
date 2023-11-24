@@ -1,16 +1,20 @@
 package com.ddit.proj.service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ddit.proj.mapper.LectureMapper;
 import com.ddit.proj.service.LecListService;
 import com.ddit.proj.vo.BuildingVO;
 import com.ddit.proj.vo.LecApplyVO;
+import com.ddit.proj.vo.LectureDetailVO;
 import com.ddit.proj.vo.LectureVO;
 import com.ddit.proj.vo.MemberVO;
+import com.ddit.proj.vo.SubjectVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +62,54 @@ public class LecListServiceImpl implements LecListService {
 	public List<LecApplyVO> leesCode() {
 		return this.lectureMapper.leesCode();
 	}
+
+	@Override
+	public int insertApply(LecApplyVO lecApplyVO) {
+		return lectureMapper.insertApply(lecApplyVO);
+	}
+
+	@Override
+	public int insertLecture(LectureVO lectureVO) {
+		return lectureMapper.insertLecture(lectureVO);
+	}
+
+	@Override
+	public int insertLectureDetail(LectureDetailVO lectureDetailVOlist) {
+		return lectureMapper.insertLectureDetail(lectureDetailVOlist);
+	}
+
+	@Override
+	public List<SubjectVO> listSubj() {
+		return lectureMapper.listSubj();
+	}
+
+	@Override
+	public int updateApply(LecApplyVO lecApplyVO) {
+		return lectureMapper.updateApply(lecApplyVO);
+	}
+
+	@Override
+	public int updateLecture(LectureVO lectureVO) {
+		return lectureMapper.updateLecture(lectureVO);
+	}
+
+	@Override
+	public int deleteLectureDetail(LectureDetailVO lectureDetailVO) {
+		return lectureMapper.deleteLectureDetail(lectureDetailVO);
+	}
+
+	@Override
+	public int deleteLec(String lecaId) {
+		return lectureMapper.deleteLec(lecaId);
+	}
+
+	@Override
+	public List<LectureDetailVO> getTime(LectureVO lectureVO) {
+		return lectureMapper.getTime(lectureVO);
+	}
+
+
+	
 
 	
 }

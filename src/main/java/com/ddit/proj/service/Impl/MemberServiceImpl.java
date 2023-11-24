@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 import com.ddit.proj.mapper.MemberMapper;
 import com.ddit.proj.service.MemberService;
 import com.ddit.proj.vo.AuthVO;
+import com.ddit.proj.vo.CodeDetailVO;
+import com.ddit.proj.vo.CodeVO;
 import com.ddit.proj.vo.MemberVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -46,6 +51,19 @@ public class MemberServiceImpl implements MemberService {
 	public int insertMember(MemberVO memberVO) {
 		//사용자 등록
 		int result = memberMapper.insertMember(memberVO);
+		
+		//memType : 학생
+		if(memberVO.getMemType().equals("학생")) {
+			result += memberMapper.studentInsert(memberVO);
+		}else if(memberVO.getMemType().equals("교수")) {
+		//memType : 교수
+			result += memberMapper.professorInsert(memberVO);
+		}else {
+		//memType : 교직원
+			result += memberMapper.employeeInsert(memberVO);
+		}
+		
+		log.info("result : " + result);
 		
 		return result;
 	}
@@ -98,6 +116,28 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.getMemberTotal(map);
 	}
 
+	@Override
+	public String chooseMemNo(String memberType) {
+		return memberMapper.chooseMemNo(memberType);
+	}
 
+	public List<CodeDetailVO> codeIdList(String codeId){
+		return memberMapper.codeIdList(codeId);
+	}
+
+	@Override
+	public List<CodeVO> codeIdList2(String groupId) {
+		return memberMapper.codeIdList2(groupId);
+	}
+
+	@Override
+	public List<CodeVO> codeIdList3(String groupId) {
+		return memberMapper.codeIdList3(groupId);
+	}
+
+//	@Override
+//	public List<MemberVO> codeNmList(String codeId) {
+//		return memberMapper.codeNmList(codeId);
+//	}
 
 }

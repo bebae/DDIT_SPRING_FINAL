@@ -26,7 +26,7 @@ public class CustomAccessDeniedHandler implements
 			, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) 
 					throws IOException, ServletException {
-		log.info("handle");
+		log.info("문제가있어용?" + accessDeniedException.getMessage());
 		
 		response.sendRedirect("/security/accessError");
 	}

@@ -21,6 +21,9 @@ public interface DormitoryService {
 	
 	DormitoryApplyFormVO dormitoryDetail(String memNo);
 	
+	// 상/벌점 조회
+	DormitoryApplyFormVO detailScore(String memNo);
+	
 	//외박신청
 	int insertSleepOver(DormitorySleepOverVO dormitorySleepOverVO);
 }

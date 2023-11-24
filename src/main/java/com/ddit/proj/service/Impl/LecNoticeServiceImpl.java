@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ddit.proj.mapper.LectureMapper;
 import com.ddit.proj.service.LecNoticeService;
 import com.ddit.proj.vo.LecNoticeVO;
+import com.ddit.proj.vo.SearchVO;
 
 @Service
 public class LecNoticeServiceImpl implements LecNoticeService {
@@ -20,10 +21,9 @@ public class LecNoticeServiceImpl implements LecNoticeService {
 		return lectureMapper.listLecNotice();
 	}
 	
-	
 	@Override
-	public List<LecNoticeVO> getLecNoticeVO(String lecCode) {
-		return lectureMapper.getLecNoticeVO(lecCode);
+	public List<LecNoticeVO> getLecNoticeVO(SearchVO searchVO) {
+		return lectureMapper.getLecNoticeVO(searchVO);
 	}
 
 }

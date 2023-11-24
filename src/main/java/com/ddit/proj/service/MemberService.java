@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.ddit.proj.vo.AuthVO;
+import com.ddit.proj.vo.CodeDetailVO;
+import com.ddit.proj.vo.CodeVO;
 import com.ddit.proj.vo.MemberVO;
 
 public interface MemberService {
@@ -28,5 +30,16 @@ public interface MemberService {
 	//public List<MemberVO> listMemberPage(Map<String, Object> map);
 	
 	public int getMemberTotal(Map<String, Object> map);
+	
+	public String chooseMemNo(String memberType);
+	
+	public List<CodeDetailVO> codeIdList(String codeId);
+	
+	public List<CodeVO> codeIdList2(String groupId);
+	
+	public List<CodeVO> codeIdList3(String groupId);
+	
+//	public List<MemberVO> codeNmList(String codeId);
+
 	
 }

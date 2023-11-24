@@ -39,6 +39,7 @@ public class ArticlePage<T> {
 		} else { //글이 있다면?
 			//전체 글 수(total) / 한 화면에 보여질 목록의 행의 수(size) = 전체 페이지 수
 			//=>0이 아니면 (137행). 나머지가 있다면, 페이지를 1증가
+			totalPages = total / size;
 			if(total % size > 0) {
 				totalPages++; //전체 17페이지수
 			}

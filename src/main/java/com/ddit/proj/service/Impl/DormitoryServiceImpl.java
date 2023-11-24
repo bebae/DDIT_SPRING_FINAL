@@ -57,6 +57,11 @@ public class DormitoryServiceImpl implements DormitoryService {
 	public int insertSleepOver(DormitorySleepOverVO dormitorySleepOverVO) {
 		return domitoryMapper.insertDormiSleep(dormitorySleepOverVO);
 	}
+
+	@Override
+	public DormitoryApplyFormVO detailScore(String memNo) {
+		return domitoryMapper.detailScore(memNo);
+	}
 	
 
 }
